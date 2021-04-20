@@ -1,5 +1,6 @@
 package com.example.kickons;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -22,8 +23,25 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DatabaseContract.FeedEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 DatabaseContract.FeedEntry.COLUMN_NAME_ITEM + " TEXT," +
                 DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION + " TEXT," +
-                DatabaseContract.FeedEntry.COLUMN_NAME_PRICE + " REAL );");
+                DatabaseContract.FeedEntry.COLUMN_NAME_PRICE + " TEXT );");
+
+
+
     }
+
+    //TODO: call this from SellWhat.java to add to db
+    public void addItemToDb(SQLiteDatabase db, String item, String location, String price){
+
+
+        ContentValues itemValues = new ContentValues();
+
+        itemValues.put(DatabaseContract.FeedEntry.COLUMN_NAME_ITEM, item);
+        itemValues.put(DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION, location);
+        itemValues.put(DatabaseContract.FeedEntry.COLUMN_NAME_PRICE, price);
+
+        db.insert(DatabaseContract.FeedEntry.TABLE_NAME, null, itemValues);
+    }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
