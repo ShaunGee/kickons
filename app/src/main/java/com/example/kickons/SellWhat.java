@@ -2,11 +2,10 @@ package com.example.kickons;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.ContentValues;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 
 public class SellWhat extends AppCompatActivity {
 
@@ -19,7 +18,7 @@ public class SellWhat extends AppCompatActivity {
         setContentView(R.layout.activity_sell_what);
 
         //TODO: create database x
-        //TODO: add data to database x ive coded but havnt tested yet
+        //TODO: add data to database x ive coded but havnt tested yet x
         //TODO: access database and display entered information somehow. Use cursor
         //TODO: go to veiw items page after added to database
 
@@ -28,9 +27,17 @@ public class SellWhat extends AppCompatActivity {
         input_price = findViewById(R.id.price__input);
     }
 
-    public void sell_buttion(View view){
+    public void add_sell_item_button(View view){
 
 
+        DatabaseHelper databaseHelper = new DatabaseHelper(this);
+        SQLiteDatabase db  = databaseHelper.getWritableDatabase();
+
+
+
+        databaseHelper.addItemToDb(db,input_item.getText().toString(),input_location.getText().toString(), input_price.getText().toString());
+
+        db.close();
 
 
 
