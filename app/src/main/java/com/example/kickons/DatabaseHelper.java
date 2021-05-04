@@ -30,7 +30,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    //TODO: call this from SellWhat.java to add to db
+
     public void addItemToDb(SQLiteDatabase db, String item, String location, String price){
 
         System.out.println("on add item called");

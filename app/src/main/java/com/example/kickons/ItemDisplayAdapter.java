@@ -41,7 +41,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
         item.setText(saleItems.get(position).getName());
         location.setText(saleItems.get(position).getLocation());
-        price.setText(saleItems.get(position).getPrice());
+        price.setText("$"+ saleItems.get(position).getPrice());
 
     }
 
