@@ -8,48 +8,51 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.ViewHolder> {
 
-    private String[] items, location, price;
+    //private String[] items, location, price;
+    List<SaleItem> saleItems;
 
 
-
-    public ItemDisplayAdapter(String[] items, String[] location, String[] price) {
-        this.items = items;
-        this.location = location;
-        this.price = price;
+    public ItemDisplayAdapter(List<SaleItem> i) {
+        this.saleItems = i;
+        //this.items = i.get(0);
+        //this.location = location;
+        //this.price = price;
 
     }
 
     @NonNull
     @Override
     public ItemDisplayAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.sale_item, parent,false);
+        CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.sale_item, parent, false);
 
         return new ViewHolder(cv);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ItemDisplayAdapter.ViewHolder holder, int position) {
-        CardView cardView =  holder.cardView;
-        TextView i = (TextView) cardView.findViewById(R.id.individual_item_name);
-        TextView l = (TextView) cardView.findViewById(R.id.individual_item_location);
-        TextView p = (TextView) cardView.findViewById(R.id.individual_item_price);
+        CardView cardView = holder.cardView;
+        TextView item = (TextView) cardView.findViewById(R.id.individual_item_name);
+        TextView location = (TextView) cardView.findViewById(R.id.individual_item_location);
+        TextView price = (TextView) cardView.findViewById(R.id.individual_item_price);
 
-        i.setText(items[position]);
-        l.setText(location[position]);
-        p.setText(price[position]);
+        item.setText(saleItems.get(position).getName());
+        location.setText(saleItems.get(position).getLocation());
+        price.setText(saleItems.get(position).getPrice());
+
     }
 
     @Override
     public int getItemCount() {
 
-        return items.length;
+        return saleItems.size();
     }
 
 
-
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         private CardView cardView;
 
@@ -60,3 +63,4 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
         }
     }
 }
+
