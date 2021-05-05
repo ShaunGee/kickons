@@ -18,9 +18,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
     public ItemDisplayAdapter(List<SaleItem> i) {
         this.saleItems = i;
-        //this.items = i.get(0);
-        //this.location = location;
-        //this.price = price;
+
 
     }
 
