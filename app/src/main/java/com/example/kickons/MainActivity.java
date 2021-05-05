@@ -8,11 +8,17 @@ import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
 
+    //TODO: put sale into tab fragment
+    //TODO: put buy into sale fragement
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //TODO- TEST - get rid
+        Intent sell = new Intent(MainActivity.this, LandingActivity.class);
+        startActivity(sell);
 
 
     }

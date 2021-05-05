@@ -1,0 +1,119 @@
+package com.example.kickons;
+
+import android.app.Activity;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.LinkedList;
+import java.util.List;
+
+/**
+ * A simple {@link Fragment} subclass.
+ * Use the {@link BuyFragment#newInstance} factory method to
+ * create an instance of this fragment.
+ */
+public class BuyFragment extends Fragment {
+
+    DatabaseHelper databaseHelper;
+    SQLiteDatabase db;
+
+
+
+    public BuyFragment() {
+
+    }
+
+    // TODO: Rename and change types and number of parameters
+    public static BuyFragment newInstance() {
+        // Required empty public constructor
+        BuyFragment fragment = new BuyFragment();
+        //Bundle args = new Bundle();
+        //fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        /*
+        saleItemList = new LinkedList<>();
+
+
+        databaseHelper = new DatabaseHelper(getActivity());
+        db = databaseHelper.getReadableDatabase();
+        Cursor cursor = db.query(DatabaseContract.FeedEntry.TABLE_NAME, new String[]{DatabaseContract.FeedEntry._ID,
+                DatabaseContract.FeedEntry.COLUMN_NAME_ITEM, DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION,
+                DatabaseContract.FeedEntry.COLUMN_NAME_PRICE}, null, null, null, null, null);
+
+
+        while (cursor.moveToNext()) {
+            saleItemList.add(new SaleItem(cursor.getString(1), cursor.getString(2), cursor.getString(3)));
+        }
+        cursor.close();
+        db.close();
+
+
+         */
+
+
+
+    }
+
+
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+
+        List<SaleItem> saleItemList = loadItemsFromDb();
+
+        View li = inflater.inflate(R.layout.fragment_buy, container, false);
+
+        ItemDisplayAdapter adapter = new ItemDisplayAdapter(saleItemList);
+        RecyclerView drinksRecycler = li.findViewById(R.id.sale_recyclerView);
+
+        drinksRecycler.setAdapter(adapter);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        drinksRecycler.setLayoutManager(linearLayoutManager);
+
+        return li;
+
+    }
+
+
+    public List<SaleItem> loadItemsFromDb(){
+
+        List<SaleItem> sI = new LinkedList<>();
+
+        databaseHelper = new DatabaseHelper(getActivity());
+        db = databaseHelper.getReadableDatabase();
+        Cursor cursor = db.query(DatabaseContract.FeedEntry.TABLE_NAME, new String[]{DatabaseContract.FeedEntry._ID,
+                DatabaseContract.FeedEntry.COLUMN_NAME_ITEM, DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION,
+                DatabaseContract.FeedEntry.COLUMN_NAME_PRICE}, null, null, null, null, null);
+
+        /*
+        use cursor to go through all units in db and add them to a list containing the 3 values. send those to the recylerview
+         */
+
+        while (cursor.moveToNext()) {
+            sI.add(new SaleItem(cursor.getString(1), cursor.getString(2), cursor.getString(3)));
+        }
+        cursor.close();
+        db.close();
+
+        return sI;
+    }
+}

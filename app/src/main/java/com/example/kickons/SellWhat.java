@@ -23,7 +23,7 @@ public class SellWhat extends AppCompatActivity {
         input_location = findViewById(R.id.location_input);
         input_price = findViewById(R.id.price__input);
     }
-
+/*
     public void add_sell_item_button(View view) {
 
 
@@ -40,4 +40,6 @@ public class SellWhat extends AppCompatActivity {
 
 
     }
+
+ */
 }
