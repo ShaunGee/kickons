@@ -12,9 +12,10 @@
         <activity
             android:name=".LandingActivity"
             android:label="@string/title_activity_landing"
-            android:theme="@style/Theme.Kickons.NoActionBar">
+            android:theme="@style/Theme.Kickons">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>

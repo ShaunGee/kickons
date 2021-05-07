@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Kickons</string>
-    <string name="title_activity_landing">LandingActivity</string>
+    <string name="title_activity_landing">Kickons</string>
     <string name="tab_text_1">Buy</string>
     <string name="tab_text_2">Sell</string>
 
