@@ -12,16 +12,14 @@
         <activity
             android:name=".LandingActivity"
             android:label="@string/title_activity_landing"
-            android:theme="@style/Theme.Kickons.NoActionBar"></activity>
-        <activity android:name=".BuyPage" />
-        <activity android:name=".SellWhat" />
-        <activity android:name=".MainActivity">
+            android:theme="@style/Theme.Kickons.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>
