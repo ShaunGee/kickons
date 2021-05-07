@@ -6,6 +6,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,6 +26,11 @@ public class BuyFragment extends Fragment {
 
     DatabaseHelper databaseHelper;
     SQLiteDatabase db;
+    View li;
+
+    ItemDisplayAdapter adapter;
+    RecyclerView drinksRecycler;
+    LinearLayoutManager linearLayoutManager;
 
 
 
@@ -32,7 +38,7 @@ public class BuyFragment extends Fragment {
 
     }
 
-    // TODO: Rename and change types and number of parameters
+
     public static BuyFragment newInstance() {
         // Required empty public constructor
         BuyFragment fragment = new BuyFragment();
@@ -67,6 +73,9 @@ public class BuyFragment extends Fragment {
 
 
 
+
+
+
     }
 
 
@@ -79,20 +88,66 @@ public class BuyFragment extends Fragment {
 
         List<SaleItem> saleItemList = loadItemsFromDb();
 
-        View li = inflater.inflate(R.layout.fragment_buy, container, false);
+        li = inflater.inflate(R.layout.fragment_buy, container, false);
 
-        ItemDisplayAdapter adapter = new ItemDisplayAdapter(saleItemList);
-        RecyclerView drinksRecycler = li.findViewById(R.id.sale_recyclerView);
+        adapter = new ItemDisplayAdapter(saleItemList);
+        drinksRecycler = li.findViewById(R.id.sale_recyclerView);
 
         drinksRecycler.setAdapter(adapter);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+        linearLayoutManager = new LinearLayoutManager(getActivity());
         drinksRecycler.setLayoutManager(linearLayoutManager);
+
 
         return li;
 
+
+
     }
 
+    public void refreshBuyList(){
+
+/*
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+
+                List<SaleItem> saleItemList = loadItemsFromDb();
+
+                adapter = new ItemDisplayAdapter(saleItemList);
+                drinksRecycler = li.findViewById(R.id.sale_recyclerView);
+
+                drinksRecycler.setAdapter(adapter);
+
+                linearLayoutManager = new LinearLayoutManager(getActivity());
+                drinksRecycler.setLayoutManager(linearLayoutManager);
+
+                System.out.println("thread running");
+
+                try {
+
+                    Thread.sleep(2000);
+
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        };
+
+        Thread t =  new Thread(runnable);
+        t.start();
+
+
+
+ */
+
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
 
     public List<SaleItem> loadItemsFromDb(){
 
@@ -114,6 +169,14 @@ public class BuyFragment extends Fragment {
         cursor.close();
         db.close();
 
+        //System.out.println("this is the id of buy: "+getId());
+
+
+
         return sI;
     }
+
+
+
+
 }

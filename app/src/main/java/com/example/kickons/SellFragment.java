@@ -30,7 +30,7 @@ public class SellFragment extends Fragment {
     }
 
 
-    // TODO: Rename and change types and number of parameters
+
     public static SellFragment newInstance() {
         SellFragment fragment = new SellFragment();
         return fragment;
@@ -61,7 +61,11 @@ public class SellFragment extends Fragment {
 
             databaseHelper.addItemToDb(db, input_item.getText().toString(), input_location.getText().toString(), input_price.getText().toString());
 
+
             db.close();
+
+            Intent i = new Intent(container.getContext(), LandingActivity.class);
+            startActivity(i);
         });
 
         //TODO: find out how to refresh buy page after adding something to db

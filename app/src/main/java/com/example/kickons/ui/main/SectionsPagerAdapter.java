@@ -57,6 +57,14 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
     }
 
 
+    @Override
+    public void startUpdate(@NonNull ViewGroup container) {
+        super.startUpdate(container);
+        //BuyFragment.newInstance().refreshBuyList();
+
+
+    }
+
 
     @Nullable
     @Override
@@ -71,4 +79,6 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // Show 2 total pages.
         return 2;
     }
+
+
 }

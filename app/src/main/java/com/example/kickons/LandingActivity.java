@@ -38,6 +38,10 @@ public class LandingActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
     }
+
+
 
 }
