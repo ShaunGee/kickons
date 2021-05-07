@@ -37,32 +37,21 @@ public class SectionsPagerAdapter extends FragmentPagerAdapter {
         // getItem is called to instantiate the fragment for the given page.
         // Return a PlaceholderFragment (defined as a static inner class below).
 
-        switch (position){
+        switch (position) {
             case 0: {
 
                 return BuyFragment.newInstance();
             }
-            case  1:{
+            case 1: {
 
                 return SellFragment.newInstance();
 
-            }        }
-
-
-
+            }
+        }
 
 
         return BuyFragment.newInstance();
         //return PlaceholderFragment.newInstance(position + 1);
-    }
-
-
-    @Override
-    public void startUpdate(@NonNull ViewGroup container) {
-        super.startUpdate(container);
-        //BuyFragment.newInstance().refreshBuyList();
-
-
     }
 
 

@@ -51,31 +51,6 @@ public class BuyFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /*
-        saleItemList = new LinkedList<>();
-
-
-        databaseHelper = new DatabaseHelper(getActivity());
-        db = databaseHelper.getReadableDatabase();
-        Cursor cursor = db.query(DatabaseContract.FeedEntry.TABLE_NAME, new String[]{DatabaseContract.FeedEntry._ID,
-                DatabaseContract.FeedEntry.COLUMN_NAME_ITEM, DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION,
-                DatabaseContract.FeedEntry.COLUMN_NAME_PRICE}, null, null, null, null, null);
-
-
-        while (cursor.moveToNext()) {
-            saleItemList.add(new SaleItem(cursor.getString(1), cursor.getString(2), cursor.getString(3)));
-        }
-        cursor.close();
-        db.close();
-
-
-         */
-
-
-
-
-
-
     }
 
 
@@ -98,48 +73,7 @@ public class BuyFragment extends Fragment {
         linearLayoutManager = new LinearLayoutManager(getActivity());
         drinksRecycler.setLayoutManager(linearLayoutManager);
 
-
         return li;
-
-
-
-    }
-
-    public void refreshBuyList(){
-
-/*
-        Runnable runnable = new Runnable() {
-            @Override
-            public void run() {
-
-                List<SaleItem> saleItemList = loadItemsFromDb();
-
-                adapter = new ItemDisplayAdapter(saleItemList);
-                drinksRecycler = li.findViewById(R.id.sale_recyclerView);
-
-                drinksRecycler.setAdapter(adapter);
-
-                linearLayoutManager = new LinearLayoutManager(getActivity());
-                drinksRecycler.setLayoutManager(linearLayoutManager);
-
-                System.out.println("thread running");
-
-                try {
-
-                    Thread.sleep(2000);
-
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        };
-
-        Thread t =  new Thread(runnable);
-        t.start();
-
-
-
- */
 
     }
 

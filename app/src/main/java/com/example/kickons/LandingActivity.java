@@ -42,6 +42,8 @@ public class LandingActivity extends AppCompatActivity {
 
     }
 
+    //TODO: remove landing bar
+
 
 
 }

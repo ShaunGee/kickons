@@ -30,7 +30,6 @@ public class SellFragment extends Fragment {
     }
 
 
-
     public static SellFragment newInstance() {
         SellFragment fragment = new SellFragment();
         return fragment;
@@ -68,34 +67,8 @@ public class SellFragment extends Fragment {
             startActivity(i);
         });
 
-        //TODO: find out how to refresh buy page after adding something to db
-
-
 
         return v;
     }
-
-/*
-
-    public void add_sell_item_button(View view, ViewGroup container) {
-
-
-        DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
-        SQLiteDatabase db = databaseHelper.getWritableDatabase();
-
-
-        databaseHelper.addItemToDb(db, input_item.getText().toString(), input_location.getText().toString(), input_price.getText().toString());
-
-        db.close();
-
-        getLayoutInflater().inflate(R.layout.fragment_buy,container, false);
-
-        //Intent intent = new Intent(getActivity(), MainActivity.class);
-        //startActivity(intent);
-
-
-    }
-
- */
 
 }
