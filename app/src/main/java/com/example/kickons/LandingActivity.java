@@ -42,7 +42,7 @@ public class LandingActivity extends AppCompatActivity {
 
     }
 
-    //TODO: remove landing bar
+    //TODO: create a fragment that will allow a sale item to be edited or deleted
 
 
 
