@@ -5,12 +5,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -33,7 +36,6 @@ public class BuyFragment extends Fragment {
     LinearLayoutManager linearLayoutManager;
 
 
-
     public BuyFragment() {
 
     }
@@ -51,7 +53,11 @@ public class BuyFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
+
     }
+
 
 
 
@@ -67,6 +73,8 @@ public class BuyFragment extends Fragment {
 
         adapter = new ItemDisplayAdapter(saleItemList);
         drinksRecycler = li.findViewById(R.id.sale_recyclerView);
+
+
 
         drinksRecycler.setAdapter(adapter);
 
@@ -104,8 +112,6 @@ public class BuyFragment extends Fragment {
         db.close();
 
         //System.out.println("this is the id of buy: "+getId());
-
-
 
         return sI;
     }

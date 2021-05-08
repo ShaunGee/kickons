@@ -1,6 +1,7 @@
 package com.example.kickons;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.ViewHolder> {
+public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.ViewHolder>  {
 
     //private String[] items, location, price;
     List<SaleItem> saleItems;
@@ -30,6 +31,8 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
         return new ViewHolder(cv);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull ItemDisplayAdapter.ViewHolder holder, int position) {
         CardView cardView = holder.cardView;
@@ -41,13 +44,32 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
         location.setText(saleItems.get(position).getLocation());
         price.setText("$"+ saleItems.get(position).getPrice());
 
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //view.setBackgroundColor(000000);
+
+            }
+        });
+
+
     }
+/*
+    public interface cardClickListener{
+        public void onItemClick();
+    }
+
+ */
+
 
     @Override
     public int getItemCount() {
 
         return saleItems.size();
     }
+
+
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -57,8 +79,10 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
         public ViewHolder(CardView v) {
             super(v);
             cardView = v;
-
         }
+
+
+
     }
 }
 

@@ -1,5 +1,8 @@
 package com.example.kickons;
 
+import android.view.View;
+
+
 public class SaleItem {
 
     private String name;
