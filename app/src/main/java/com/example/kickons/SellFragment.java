@@ -57,9 +57,7 @@ public class SellFragment extends Fragment {
             DatabaseHelper databaseHelper = new DatabaseHelper(getActivity());
             SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
-
             databaseHelper.addItemToDb(db, input_item.getText().toString(), input_location.getText().toString(), input_price.getText().toString());
-
 
             db.close();
 

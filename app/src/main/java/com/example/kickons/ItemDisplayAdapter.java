@@ -15,6 +15,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
     //private String[] items, location, price;
     List<SaleItem> saleItems;
+    ItemDisplayAdapter.ViewHolder h;
 
 
     public ItemDisplayAdapter(List<SaleItem> i) {
@@ -44,23 +45,25 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
         location.setText(saleItems.get(position).getLocation());
         price.setText("$"+ saleItems.get(position).getPrice());
 
+        h = holder;
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //System.out.println("view clicked");
                 //view.setBackgroundColor(000000);
+                //TODO: create fragment to be opened when item is clicked
 
             }
         });
 
 
-    }
-/*
-    public interface cardClickListener{
-        public void onItemClick();
+
+
+
+
     }
 
- */
 
 
     @Override

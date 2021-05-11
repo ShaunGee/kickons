@@ -40,12 +40,5 @@ public class LandingActivity extends AppCompatActivity {
         });
 
 
-
-
     }
-
-    //TODO: create a fragment that will allow a sale item to be edited or deleted
-
-
-
 }

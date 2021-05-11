@@ -58,6 +58,11 @@ public class BuyFragment extends Fragment {
 
     }
 
+    /*
+    I want to create a button that creates a new fragment containing edit info for the selected item that is called from the buy list
+    this means the items ontouch will be called from the buyfragment class. use an implementation of the cardview ontouch event
+     */
+
 
 
 
@@ -73,8 +78,6 @@ public class BuyFragment extends Fragment {
 
         adapter = new ItemDisplayAdapter(saleItemList);
         drinksRecycler = li.findViewById(R.id.sale_recyclerView);
-
-
 
         drinksRecycler.setAdapter(adapter);
 
@@ -115,8 +118,6 @@ public class BuyFragment extends Fragment {
 
         return sI;
     }
-
-
 
 
 }
