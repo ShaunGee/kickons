@@ -80,7 +80,7 @@ public class BuyFragment extends Fragment {
         drinksRecycler = li.findViewById(R.id.sale_recyclerView);
 
         //adapter.onTouchEvent(drinksRecycler, );
-        drinksRecycler.addOnItemTouchListener(new ItemDisplayAdapter.RecyclerOnTouch(container.getContext(),container, drinksRecycler));
+        //drinksRecycler.addOnItemTouchListener(new ItemDisplayAdapter.RecyclerOnTouch(container.getContext(),container, drinksRecycler));
         drinksRecycler.setAdapter(adapter);
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -102,6 +102,7 @@ public class BuyFragment extends Fragment {
 
         databaseHelper = new DatabaseHelper(getActivity());
         db = databaseHelper.getReadableDatabase();
+
         Cursor cursor = db.query(DatabaseContract.FeedEntry.TABLE_NAME, new String[]{DatabaseContract.FeedEntry._ID,
                 DatabaseContract.FeedEntry.COLUMN_NAME_ITEM, DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION,
                 DatabaseContract.FeedEntry.COLUMN_NAME_PRICE}, null, null, null, null, null);

@@ -4,6 +4,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -24,10 +26,13 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
     //private String[] items, location, price;
     List<SaleItem> saleItems;
     ItemDisplayAdapter.ViewHolder h;
+    ViewGroup parent;
 
 
     public ItemDisplayAdapter(List<SaleItem> i) {
         this.saleItems = i;
+        setHasStableIds(true);
+        System.out.println("has stable id: "+ hasStableIds());
 
 
     }
@@ -36,6 +41,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
     @Override
     public ItemDisplayAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.sale_item, parent, false);
+        this.parent = parent;
 
         return new ViewHolder(cv);
     }
@@ -55,12 +61,31 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
 
 
+
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //System.out.println("view clicked");
+
                 //view.setBackgroundColor(000000);
-                //TODO: create fragment to be opened when item is clicked
+                //View child = recyclerView.findChildViewUnder(e.getX(),e.getY());
+                //if (child != null) {
+                    System.out.println("clicked from ItemDisplayAdapter");
+                    //Intent intent = new Intent(parent.getContext(),SaleItemDetail.class);
+                    //intent.putExtra()
+
+                    //parent.getContext().startActivity(intent);
+
+                    DatabaseHelper databaseHelper = new DatabaseHelper(parent.getContext());
+                    SQLiteDatabase db = databaseHelper.getWritableDatabase();
+                System.out.println("this item id: "+ position);
+                databaseHelper.removeItemFromDb( db, position);
+                notifyDataSetChanged();
+                db.close();
+
+                //Cursor cursor = db.query()
+
+
 
             }
         });
@@ -91,6 +116,8 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
 
     }
+
+    /*
 
 
     public static class RecyclerOnTouch implements RecyclerView.OnItemTouchListener{
@@ -139,6 +166,8 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
 
     }
+
+     */
 
 }
 
