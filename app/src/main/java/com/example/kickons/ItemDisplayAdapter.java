@@ -31,8 +31,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
     public ItemDisplayAdapter(List<SaleItem> i) {
         this.saleItems = i;
-        setHasStableIds(true);
-        System.out.println("has stable id: "+ hasStableIds());
+
 
 
     }
@@ -60,26 +59,22 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
         price.setText("$"+ saleItems.get(position).getPrice());
 
 
-
-
-
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //view.setBackgroundColor(000000);
-                //View child = recyclerView.findChildViewUnder(e.getX(),e.getY());
-                //if (child != null) {
-                    System.out.println("clicked from ItemDisplayAdapter");
-                    //Intent intent = new Intent(parent.getContext(),SaleItemDetail.class);
-                    //intent.putExtra()
-
-                    //parent.getContext().startActivity(intent);
 
                     DatabaseHelper databaseHelper = new DatabaseHelper(parent.getContext());
                     SQLiteDatabase db = databaseHelper.getWritableDatabase();
-                System.out.println("this item id: "+ position);
-                databaseHelper.removeItemFromDb( db, position);
+
+                TextView name,price,location;
+                name = (TextView) holder.cardView.findViewById(R.id.individual_item_name);
+                price = (TextView) holder.cardView.findViewById(R.id.individual_item_price);
+                location = (TextView) holder.cardView.findViewById(R.id.individual_item_location);
+
+                databaseHelper.removeItemFromDb( db, name.getText().toString(), location.getText().toString(), price.getText().toString());
+                //RecyclerView.AdapterDataObserver observer = new Ober
+                //registerAdapterDataObserver();
                 notifyDataSetChanged();
                 db.close();
 
@@ -90,7 +85,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
             }
         });
 
-
+        //TODO: Database Delete working but now need a way to refresh the page to show updated table. We can use intents or we can use adapterDataObserver
 
     }
 

@@ -47,25 +47,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     }
 
-    public void removeItemFromDb(SQLiteDatabase db, int db_id){
+    public void removeItemFromDb(SQLiteDatabase db, String itemName,String itemLocation, String itemPrice){
 
-        db.delete(DatabaseContract.FeedEntry.TABLE_NAME,DatabaseContract.FeedEntry._ID + "=?" , new String[]{"20"});
-        //db.execSQL("DELETE FROM " + DatabaseContract.FeedEntry.TABLE_NAME + " WHERE " + DatabaseContract.FeedEntry._ID + " = " + String.valueOf(db_id));
-        System.out.println("This is the db id: "+ DatabaseContract.FeedEntry._ID);
+        Cursor idCursor = db.rawQuery(String.format("SELECT %s  FROM %s WHERE %s = ? AND %s = ? AND %s = ?",DatabaseContract.FeedEntry._ID,
+                DatabaseContract.FeedEntry.TABLE_NAME, DatabaseContract.FeedEntry.COLUMN_NAME_ITEM, DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION, DatabaseContract.FeedEntry.COLUMN_NAME_PRICE),
+                new String[]{itemName,itemLocation, itemPrice.split("\\$")[1]}, null);
 
-
-        Cursor cursor = db.query(DatabaseContract.FeedEntry.TABLE_NAME, new String[]{DatabaseContract.FeedEntry._ID,
-                DatabaseContract.FeedEntry.COLUMN_NAME_ITEM, DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION,
-                DatabaseContract.FeedEntry.COLUMN_NAME_PRICE}, null, null, null, null, null);
-
-        /*
-        So the problem here isn't that the id isn't working. The problem is that the provided db_id from position is only relevant to the position on
-        the recycler. #TODO: Find out how to delete using the actual id from the database. We might have to create a new list..dunno
-         */
-
-        while (cursor.moveToNext()) {
-            System.out.println(cursor.getColumnName(0)+ cursor.getString(0));
+        while (idCursor.moveToNext()) {
+            db.delete(DatabaseContract.FeedEntry.TABLE_NAME, DatabaseContract.FeedEntry._ID + " = ?", new String[]{idCursor.getString(0)});
         }
+
+
     }
 
 
