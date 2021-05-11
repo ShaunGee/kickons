@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -55,7 +56,6 @@ public class BuyFragment extends Fragment {
 
 
 
-
     }
 
     /*
@@ -79,6 +79,8 @@ public class BuyFragment extends Fragment {
         adapter = new ItemDisplayAdapter(saleItemList);
         drinksRecycler = li.findViewById(R.id.sale_recyclerView);
 
+        //adapter.onTouchEvent(drinksRecycler, );
+        drinksRecycler.addOnItemTouchListener(new ItemDisplayAdapter.RecyclerOnTouch(container.getContext(),container, drinksRecycler));
         drinksRecycler.setAdapter(adapter);
 
         linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -118,6 +120,8 @@ public class BuyFragment extends Fragment {
 
         return sI;
     }
+
+
 
 
 }

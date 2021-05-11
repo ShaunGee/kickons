@@ -25,15 +25,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION + " TEXT," +
                 DatabaseContract.FeedEntry.COLUMN_NAME_PRICE + " TEXT );");
 
-        System.out.println("on create called");
+        //System.out.println("on create called");
 
 
     }
 
 
+
     public void addItemToDb(SQLiteDatabase db, String item, String location, String price){
 
-        System.out.println("on add item called");
+        //System.out.println("on add item called");
 
         ContentValues itemValues = new ContentValues();
 
@@ -41,19 +42,17 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         itemValues.put(DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION, location);
         itemValues.put(DatabaseContract.FeedEntry.COLUMN_NAME_PRICE, price);
 
-
-
         db.insert(DatabaseContract.FeedEntry.TABLE_NAME, null, itemValues);
 
-
-
     }
+
+    //public void removeItemFromDb(SQLiteDatabase db, )
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
 
-        System.out.println("on upgrade called");
+        //System.out.println("on upgrade called");
 
 
 
@@ -63,7 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         super.onDowngrade(db, oldVersion, newVersion);
 
-        System.out.println("on downgrade called");
+        //System.out.println("on downgrade called");
 
 
     }
