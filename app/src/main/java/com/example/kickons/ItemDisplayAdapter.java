@@ -24,8 +24,7 @@ import java.util.List;
 public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.ViewHolder> {
 
     //private String[] items, location, price;
-    List<SaleItem> saleItems;
-    ItemDisplayAdapter.ViewHolder h;
+    private List<SaleItem> saleItems;
     ViewGroup parent;
 
 
@@ -41,6 +40,17 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
     public ItemDisplayAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.sale_item, parent, false);
         this.parent = parent;
+
+        registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
+            @Override
+            public void onChanged() {
+                super.onChanged();
+                Intent i = new Intent(parent.getContext(),LandingActivity.class);
+                parent.getContext().startActivity(i);
+                //parent.removeViewAt(0);
+            }
+        });
+
 
         return new ViewHolder(cv);
     }
@@ -59,10 +69,11 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
         price.setText("$"+ saleItems.get(position).getPrice());
 
 
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                System.out.println("clicked");
 
                     DatabaseHelper databaseHelper = new DatabaseHelper(parent.getContext());
                     SQLiteDatabase db = databaseHelper.getWritableDatabase();
@@ -72,10 +83,24 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
                 price = (TextView) holder.cardView.findViewById(R.id.individual_item_price);
                 location = (TextView) holder.cardView.findViewById(R.id.individual_item_location);
 
-                databaseHelper.removeItemFromDb( db, name.getText().toString(), location.getText().toString(), price.getText().toString());
+
+                for (int i = 0;i < saleItems.size();i++){
+                    if (name.getText().toString().equals(saleItems.get(i).getName())
+                            && location.getText().toString().equals(saleItems.get(i).getLocation()) &&
+                            price.getText().toString().split("\\$")[1].equals(saleItems.get(i).getPrice())){
+
+                        notifyItemRemoved(i);
+                        saleItems.remove(i);
+                        databaseHelper.removeItemFromDb( db, name.getText().toString(), location.getText().toString(), price.getText().toString());
+
+                    }
+                }
+
+                //databaseHelper.removeItemFromDb( db, name.getText().toString(), location.getText().toString(), price.getText().toString());
                 //RecyclerView.AdapterDataObserver observer = new Ober
                 //registerAdapterDataObserver();
-                notifyDataSetChanged();
+
+                //notifyDataSetChanged();
                 db.close();
 
                 //Cursor cursor = db.query()
@@ -86,6 +111,8 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
         });
 
         //TODO: Database Delete working but now need a way to refresh the page to show updated table. We can use intents or we can use adapterDataObserver
+
+
 
     }
 

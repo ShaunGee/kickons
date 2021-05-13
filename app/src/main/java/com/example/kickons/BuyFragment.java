@@ -3,6 +3,7 @@ package com.example.kickons;
 import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -63,8 +65,67 @@ public class BuyFragment extends Fragment {
     this means the items ontouch will be called from the buyfragment class. use an implementation of the cardview ontouch event
      */
 
+/*
+    public void removeEntry(){
 
 
+
+        drinksRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
+            @Override
+            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+                View item = rv.findChildViewUnder(e.getX(),e.getY());
+                DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
+                SQLiteDatabase db = databaseHelper.getWritableDatabase();
+
+                TextView name,price,location;
+                name = (TextView) rv.findViewById(R.id.individual_item_name);
+                price = (TextView) rv.findViewById(R.id.individual_item_price);
+                location = (TextView) rv.findViewById(R.id.individual_item_location);
+
+
+
+               // System.out.println("fefe: "+ name.toString().equals(adapter.saleItems.get(0).getName()));
+
+
+                for (int i = 0;i < adapter.saleItems.size();i++){
+                    if (name.getText().toString().equals(adapter.saleItems.get(i).getName())
+                            && location.getText().toString().equals(adapter.saleItems.get(i).getLocation()) &&
+                            price.getText().toString().equals(adapter.saleItems.get(i).getPrice())){
+
+                        System.out.println("called");
+                        drinksRecycler.removeViewAt(i);
+                        adapter.notifyItemRemoved(i);
+                        adapter.saleItems.remove(i);
+                    }
+                }
+
+                System.out.println("touced");
+
+               // databaseHelper.removeItemFromDb( db, name.getText().toString(), location.getText().toString(), price.getText().toString());
+
+                //TODO: refresh adapter after deleting an entry
+
+
+                db.close();
+
+
+
+                return false;
+            }
+
+            @Override
+            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
+
+            }
+
+            @Override
+            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+
+            }
+        });
+    }
+
+ */
 
 
     @Override
@@ -79,11 +140,21 @@ public class BuyFragment extends Fragment {
         adapter = new ItemDisplayAdapter(saleItemList);
         drinksRecycler = li.findViewById(R.id.sale_recyclerView);
 
-        //adapter.onTouchEvent(drinksRecycler, );
-        //drinksRecycler.addOnItemTouchListener(new ItemDisplayAdapter.RecyclerOnTouch(container.getContext(),container, drinksRecycler));
+
         drinksRecycler.setAdapter(adapter);
 
+        /*
+        int x = adapter.saleItems.size();
+        //saleItemList.remove(x);
+        drinksRecycler.removeViewAt(x);
+        adapter.notifyItemRemoved(x);
+        adapter.notifyItemRangeChanged(x, adapter.saleItems.size());
+
+         */
+
         linearLayoutManager = new LinearLayoutManager(getActivity());
+
+        //removeEntry();
         drinksRecycler.setLayoutManager(linearLayoutManager);
 
         return li;

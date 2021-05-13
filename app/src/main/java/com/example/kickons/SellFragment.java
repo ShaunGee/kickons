@@ -5,6 +5,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.service.autofill.OnClickAction;
 import android.view.LayoutInflater;
@@ -23,6 +25,8 @@ import com.example.kickons.ui.main.SectionsPagerAdapter;
 public class SellFragment extends Fragment {
 
     TextView input_item,input_location, input_price;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
 
     public SellFragment() {
@@ -39,13 +43,18 @@ public class SellFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_sell, container, false);
+
+        fragmentManager = getFragmentManager();
+
 
         input_item = v.findViewById(R.id.item_input);
         input_location = v.findViewById(R.id.location_input);
@@ -61,8 +70,10 @@ public class SellFragment extends Fragment {
 
             db.close();
 
-            Intent i = new Intent(container.getContext(), LandingActivity.class);
-            startActivity(i);
+
+
+            //Intent i = new Intent(container.getContext(), LandingActivity.class);
+            //startActivity(i);
         });
 
 
