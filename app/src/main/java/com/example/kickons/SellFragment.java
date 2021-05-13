@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
 
 import android.service.autofill.OnClickAction;
 import android.view.LayoutInflater;
@@ -56,6 +57,7 @@ public class SellFragment extends Fragment {
         fragmentManager = getFragmentManager();
 
 
+
         input_item = v.findViewById(R.id.item_input);
         input_location = v.findViewById(R.id.location_input);
         input_price = v.findViewById(R.id.price__input);
@@ -69,6 +71,10 @@ public class SellFragment extends Fragment {
             databaseHelper.addItemToDb(db, input_item.getText().toString(), input_location.getText().toString(), input_price.getText().toString());
 
             db.close();
+
+
+            ViewPager viewPager = container.findViewById(R.id.view_pager);
+            viewPager.setCurrentItem(BuyFragment.newInstance().getId());
 
 
 

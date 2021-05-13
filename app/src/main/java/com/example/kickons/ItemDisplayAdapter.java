@@ -1,7 +1,9 @@
 package com.example.kickons;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -19,6 +21,7 @@ import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.ViewHolder> {
@@ -30,6 +33,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
     public ItemDisplayAdapter(List<SaleItem> i) {
         this.saleItems = i;
+
 
 
 
@@ -45,9 +49,11 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
             @Override
             public void onChanged() {
                 super.onChanged();
-                Intent i = new Intent(parent.getContext(),LandingActivity.class);
-                parent.getContext().startActivity(i);
-                //parent.removeViewAt(0);
+
+                Activity activity = (Activity) parent.getContext();
+                loadItemsFromDb(activity);
+
+
             }
         });
 
@@ -59,6 +65,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ItemDisplayAdapter.ViewHolder holder, int position) {
+
         CardView cardView = holder.cardView;
         TextView item = (TextView) cardView.findViewById(R.id.individual_item_name);
         TextView location = (TextView) cardView.findViewById(R.id.individual_item_location);
@@ -139,57 +146,33 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
     }
 
-    /*
+    public  void loadItemsFromDb(Activity activity){
 
 
-    public static class RecyclerOnTouch implements RecyclerView.OnItemTouchListener{
-        RecyclerView recyclerView;
-        GestureDetector gestureDetector;
+        List<SaleItem> sI = new LinkedList<>();
 
-        public RecyclerOnTouch(Context context, ViewGroup container, RecyclerView recyclerView) {
+        DatabaseHelper databaseHelper = new DatabaseHelper(activity);
+        SQLiteDatabase db = databaseHelper.getReadableDatabase();
 
-            this.recyclerView = recyclerView;
-            gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener(){
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    View child = recyclerView.findChildViewUnder(e.getX(),e.getY());
-                    if (child != null) {
-                        System.out.println("clicked from ItemDisplayAdapter");
-                        Intent intent = new Intent(container.getContext(),SaleItemDetail.class);
-                        System.out.println();
-                        //intent.putExtra()
+        Cursor cursor = db.query(DatabaseContract.FeedEntry.TABLE_NAME, new String[]{DatabaseContract.FeedEntry._ID,
+                DatabaseContract.FeedEntry.COLUMN_NAME_ITEM, DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION,
+                DatabaseContract.FeedEntry.COLUMN_NAME_PRICE}, null, null, null, null, null);
 
-                        context.startActivity(intent);
+        /*
+        use cursor to go through all units in db and add them to a list containing the 3 values. send those to the recylerview
+         */
 
-                    }
-                    return true;
-
-
-                }
-            });
+        while (cursor.moveToNext()) {
+            sI.add(new SaleItem(cursor.getString(1), cursor.getString(2), cursor.getString(3)));
         }
+        cursor.close();
+        db.close();
 
-        @Override
-        public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-            gestureDetector.onTouchEvent(e);
-            return false;
-        }
+        //System.out.println("this is the id of buy: "+getId());
 
-        @Override
-        public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-
-
-        }
-
-        @Override
-        public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-        }
-
-
+        //return sI;
+        saleItems = sI;
     }
-
-     */
 
 }
 

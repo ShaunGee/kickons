@@ -7,11 +7,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -37,11 +39,15 @@ public class BuyFragment extends Fragment {
     ItemDisplayAdapter adapter;
     RecyclerView drinksRecycler;
     LinearLayoutManager linearLayoutManager;
+    List<SaleItem> saleItemList;
+    ViewPager viewPager;
 
 
     public BuyFragment() {
 
     }
+
+
 
 
     public static BuyFragment newInstance() {
@@ -55,77 +61,10 @@ public class BuyFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        loadItemsFromDb();
 
 
     }
-
-    /*
-    I want to create a button that creates a new fragment containing edit info for the selected item that is called from the buy list
-    this means the items ontouch will be called from the buyfragment class. use an implementation of the cardview ontouch event
-     */
-
-/*
-    public void removeEntry(){
-
-
-
-        drinksRecycler.addOnItemTouchListener(new RecyclerView.OnItemTouchListener() {
-            @Override
-            public boolean onInterceptTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-                View item = rv.findChildViewUnder(e.getX(),e.getY());
-                DatabaseHelper databaseHelper = new DatabaseHelper(getContext());
-                SQLiteDatabase db = databaseHelper.getWritableDatabase();
-
-                TextView name,price,location;
-                name = (TextView) rv.findViewById(R.id.individual_item_name);
-                price = (TextView) rv.findViewById(R.id.individual_item_price);
-                location = (TextView) rv.findViewById(R.id.individual_item_location);
-
-
-
-               // System.out.println("fefe: "+ name.toString().equals(adapter.saleItems.get(0).getName()));
-
-
-                for (int i = 0;i < adapter.saleItems.size();i++){
-                    if (name.getText().toString().equals(adapter.saleItems.get(i).getName())
-                            && location.getText().toString().equals(adapter.saleItems.get(i).getLocation()) &&
-                            price.getText().toString().equals(adapter.saleItems.get(i).getPrice())){
-
-                        System.out.println("called");
-                        drinksRecycler.removeViewAt(i);
-                        adapter.notifyItemRemoved(i);
-                        adapter.saleItems.remove(i);
-                    }
-                }
-
-                System.out.println("touced");
-
-               // databaseHelper.removeItemFromDb( db, name.getText().toString(), location.getText().toString(), price.getText().toString());
-
-                //TODO: refresh adapter after deleting an entry
-
-
-                db.close();
-
-
-
-                return false;
-            }
-
-            @Override
-            public void onTouchEvent(@NonNull RecyclerView rv, @NonNull MotionEvent e) {
-
-            }
-
-            @Override
-            public void onRequestDisallowInterceptTouchEvent(boolean disallowIntercept) {
-
-            }
-        });
-    }
-
- */
 
 
     @Override
@@ -133,7 +72,7 @@ public class BuyFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        List<SaleItem> saleItemList = loadItemsFromDb();
+        viewPager = container.findViewById(R.id.view_pager);
 
         li = inflater.inflate(R.layout.fragment_buy, container, false);
 
@@ -143,31 +82,45 @@ public class BuyFragment extends Fragment {
 
         drinksRecycler.setAdapter(adapter);
 
-        /*
-        int x = adapter.saleItems.size();
-        //saleItemList.remove(x);
-        drinksRecycler.removeViewAt(x);
-        adapter.notifyItemRemoved(x);
-        adapter.notifyItemRangeChanged(x, adapter.saleItems.size());
-
-         */
-
         linearLayoutManager = new LinearLayoutManager(getActivity());
 
         //removeEntry();
         drinksRecycler.setLayoutManager(linearLayoutManager);
 
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                loadItemsFromDb();
+                adapter = new ItemDisplayAdapter(saleItemList);
+                drinksRecycler.setAdapter(adapter);
+
+                linearLayoutManager = new LinearLayoutManager(getActivity());
+
+                //removeEntry();
+                drinksRecycler.setLayoutManager(linearLayoutManager);
+                System.out.println("sdsdsd");
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+
         return li;
 
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
 
-    }
 
-    public List<SaleItem> loadItemsFromDb(){
+    public void loadItemsFromDb(){
 
         List<SaleItem> sI = new LinkedList<>();
 
@@ -189,8 +142,8 @@ public class BuyFragment extends Fragment {
         db.close();
 
         //System.out.println("this is the id of buy: "+getId());
-
-        return sI;
+        saleItemList = sI;
+        //return sI;
     }
 
 
