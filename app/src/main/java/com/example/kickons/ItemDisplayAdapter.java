@@ -1,8 +1,6 @@
 package com.example.kickons;
 
 import android.app.Activity;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
@@ -29,11 +29,12 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
     //private String[] items, location, price;
     private List<SaleItem> saleItems;
     ViewGroup parent;
+    Fragment fragment;
 
 
-    public ItemDisplayAdapter(List<SaleItem> i) {
+    public ItemDisplayAdapter(List<SaleItem> i, Fragment fragment) {
         this.saleItems = i;
-
+        this.fragment = fragment;
 
 
 
@@ -45,13 +46,14 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
         CardView cv = (CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.sale_item, parent, false);
         this.parent = parent;
 
+
         registerAdapterDataObserver(new RecyclerView.AdapterDataObserver() {
             @Override
             public void onChanged() {
                 super.onChanged();
 
-                Activity activity = (Activity) parent.getContext();
-                loadItemsFromDb(activity);
+                //Activity activity = (Activity) parent.getContext();
+                //loadItemsFromDb(activity);
 
 
             }
@@ -59,7 +61,9 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
 
         return new ViewHolder(cv);
+
     }
+
 
 
 
@@ -77,18 +81,20 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
 
 
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
+        cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
                 System.out.println("clicked");
 
                     DatabaseHelper databaseHelper = new DatabaseHelper(parent.getContext());
                     SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
                 TextView name,price,location;
-                name = (TextView) holder.cardView.findViewById(R.id.individual_item_name);
-                price = (TextView) holder.cardView.findViewById(R.id.individual_item_price);
-                location = (TextView) holder.cardView.findViewById(R.id.individual_item_location);
+                name = (TextView) cardView.findViewById(R.id.individual_item_name);
+                price = (TextView) cardView.findViewById(R.id.individual_item_price);
+                location = (TextView) cardView.findViewById(R.id.individual_item_location);
 
 
                 for (int i = 0;i < saleItems.size();i++){
@@ -103,21 +109,24 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
                     }
                 }
 
-                //databaseHelper.removeItemFromDb( db, name.getText().toString(), location.getText().toString(), price.getText().toString());
-                //RecyclerView.AdapterDataObserver observer = new Ober
-                //registerAdapterDataObserver();
-
-                //notifyDataSetChanged();
                 db.close();
 
-                //Cursor cursor = db.query()
+            }
 
 
+        });
 
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener(){
+
+            @Override
+            public boolean onLongClick(View view) {
+                //holder.cardView.invalidate();
+                System.out.println("sout");
+                return false;
             }
         });
 
-        //TODO: Database Delete working but now need a way to refresh the page to show updated table. We can use intents or we can use adapterDataObserver
+
 
 
 
@@ -130,8 +139,6 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
         return saleItems.size();
     }
-
-
 
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -158,19 +165,12 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
                 DatabaseContract.FeedEntry.COLUMN_NAME_ITEM, DatabaseContract.FeedEntry.COLUMN_NAME_LOCATION,
                 DatabaseContract.FeedEntry.COLUMN_NAME_PRICE}, null, null, null, null, null);
 
-        /*
-        use cursor to go through all units in db and add them to a list containing the 3 values. send those to the recylerview
-         */
-
         while (cursor.moveToNext()) {
             sI.add(new SaleItem(cursor.getString(1), cursor.getString(2), cursor.getString(3)));
         }
         cursor.close();
         db.close();
 
-        //System.out.println("this is the id of buy: "+getId());
-
-        //return sI;
         saleItems = sI;
     }
 

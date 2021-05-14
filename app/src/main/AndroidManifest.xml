@@ -9,7 +9,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Kickons">
-        <activity android:name=".SaleItemDetail"></activity>
         <activity
             android:name=".LandingActivity"
             android:label="@string/title_activity_landing"

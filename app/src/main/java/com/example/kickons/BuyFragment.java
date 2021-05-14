@@ -1,26 +1,18 @@
 package com.example.kickons;
 
-import android.app.Activity;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -76,7 +68,7 @@ public class BuyFragment extends Fragment {
 
         li = inflater.inflate(R.layout.fragment_buy, container, false);
 
-        adapter = new ItemDisplayAdapter(saleItemList);
+        adapter = new ItemDisplayAdapter(saleItemList, this);
         drinksRecycler = li.findViewById(R.id.sale_recyclerView);
 
 
@@ -96,7 +88,7 @@ public class BuyFragment extends Fragment {
             @Override
             public void onPageSelected(int position) {
                 loadItemsFromDb();
-                adapter = new ItemDisplayAdapter(saleItemList);
+                adapter = new ItemDisplayAdapter(saleItemList,getFragment());
                 drinksRecycler.setAdapter(adapter);
 
                 linearLayoutManager = new LinearLayoutManager(getActivity());
@@ -111,8 +103,6 @@ public class BuyFragment extends Fragment {
 
             }
         });
-
-
 
         return li;
 
@@ -146,7 +136,14 @@ public class BuyFragment extends Fragment {
         //return sI;
     }
 
+    public Fragment getFragment(){
 
+        return this;
+    }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        //drinksRecycler.removeAllViews();
+    }
 }
