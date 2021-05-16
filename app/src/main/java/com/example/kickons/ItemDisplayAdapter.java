@@ -63,8 +63,6 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
     }
 
 
-
-
     @Override
     public void onBindViewHolder(@NonNull ItemDisplayAdapter.ViewHolder holder, int position) {
 
@@ -75,8 +73,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
         item.setText(saleItems.get(position).getName());
         location.setText(saleItems.get(position).getLocation());
-        price.setText("$"+ saleItems.get(position).getPrice());
-
+        price.setText("$" + saleItems.get(position).getPrice());
 
 
         cardView.setOnClickListener(new View.OnClickListener() {
@@ -86,23 +83,23 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
                 System.out.println("clicked");
 
-                    DatabaseHelper databaseHelper = new DatabaseHelper(parent.getContext());
-                    SQLiteDatabase db = databaseHelper.getWritableDatabase();
+                DatabaseHelper databaseHelper = new DatabaseHelper(parent.getContext());
+                SQLiteDatabase db = databaseHelper.getWritableDatabase();
 
-                TextView name,price,location;
+                TextView name, price, location;
                 name = (TextView) cardView.findViewById(R.id.individual_item_name);
                 price = (TextView) cardView.findViewById(R.id.individual_item_price);
                 location = (TextView) cardView.findViewById(R.id.individual_item_location);
 
 
-                for (int i = 0;i < saleItems.size();i++){
+                for (int i = 0; i < saleItems.size(); i++) {
                     if (name.getText().toString().equals(saleItems.get(i).getName())
                             && location.getText().toString().equals(saleItems.get(i).getLocation()) &&
-                            price.getText().toString().split("\\$")[1].equals(saleItems.get(i).getPrice())){
+                            price.getText().toString().split("\\$")[1].equals(saleItems.get(i).getPrice())) {
 
                         notifyItemRemoved(i);
                         saleItems.remove(i);
-                        databaseHelper.removeItemFromDb( db, name.getText().toString(), location.getText().toString(), price.getText().toString());
+                        databaseHelper.removeItemFromDb(db, name.getText().toString(), location.getText().toString(), price.getText().toString());
 
                     }
                 }
@@ -114,7 +111,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
         });
 
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener(){
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
 
             @Override
             public boolean onLongClick(View view) {
@@ -124,12 +121,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
             }
         });
 
-
-
-
-
     }
-
 
 
     @Override
@@ -151,7 +143,7 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
 
     }
 
-    public  void loadItemsFromDb(Activity activity){
+    public void loadItemsFromDb(Activity activity) {
 
 
         List<SaleItem> sI = new LinkedList<>();
@@ -173,6 +165,3 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
     }
 
 }
-
-
-
