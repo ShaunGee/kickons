@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "14468451374",
+    "project_id": "kickons-9f827",
+    "storage_bucket": "kickons-9f827.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14468451374:android:4c487bb300c90dbc8fa3bf",
+        "android_client_info": {
+          "package_name": "com.example.kickons"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "14468451374-fn1083jb832s763begh9g7249b2ae3a5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDHmO0x7AS2le__o9kflfc9e5LoujCyNyc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "14468451374-fn1083jb832s763begh9g7249b2ae3a5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

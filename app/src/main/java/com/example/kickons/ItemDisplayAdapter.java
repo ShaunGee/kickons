@@ -36,8 +36,6 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
         this.saleItems = i;
         this.fragment = fragment;
 
-
-
     }
 
     @NonNull
