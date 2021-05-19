@@ -162,6 +162,8 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
         db.close();
 
         saleItems = sI;
+
+
     }
 
 }
