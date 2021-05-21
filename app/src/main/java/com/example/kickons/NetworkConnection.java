@@ -33,16 +33,7 @@ public class NetworkConnection {
 
 RequestQueue requestQueue;
 
-    public boolean testInterentConnection() {
-        try {
-            InetAddress ipAddr = InetAddress.getByName("google.com");
-            //You can replace it with your name
-            return !ipAddr.equals("");
 
-        } catch (Exception e) {
-            return false;
-        }
-    }
 
     public NetworkConnection(Context context) {
        requestQueue = Volley.newRequestQueue(context);
@@ -72,12 +63,6 @@ RequestQueue requestQueue;
 
         requestQueue.add(jsonObjectRequest);
 
-
     }
-
-    public JSONObject getJsonObject(){
-        return jsonObject;
-    }
-
 
 }
