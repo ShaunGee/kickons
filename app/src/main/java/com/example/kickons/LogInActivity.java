@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
+import android.widget.FrameLayout;
 
 
 public class LogInActivity extends AppCompatActivity {
@@ -16,8 +17,11 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
 
         FragmentManager fragmentManager  = getSupportFragmentManager();
+        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.login_page_frame);
+        fragmentManager.beginTransaction().add(R.id.login_page_frame, LogInFragment.newInstance(), null).addToBackStack(null).commit();
 
-        fragmentManager.beginTransaction().add(LogInFragment.newInstance(), null).commit();
+
+
 
 
 

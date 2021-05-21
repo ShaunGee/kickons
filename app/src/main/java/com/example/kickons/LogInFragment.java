@@ -2,13 +2,18 @@ package com.example.kickons;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -17,15 +22,6 @@ import android.widget.TextView;
  */
 public class LogInFragment extends Fragment implements View.OnClickListener {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
     Button loginBtn;
     TextView register, forgotPwd;
 
@@ -33,13 +29,6 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-
-     * @return A new instance of fragment LogInFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static LogInFragment newInstance() {
         LogInFragment fragment = new LogInFragment();
@@ -63,15 +52,23 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_log_in, container, false);
 
-        loginBtn = (Button) v.findViewById(R.id.login_login_button);
-        forgotPwd  = (TextView) v.findViewById(R.id.login_forgot_password);
-        register = (TextView) v.findViewById(R.id.login_register);
-
-
         // Inflate the layout for this fragment
         return v;
     }
 
+    @Override
+    public void onViewCreated(@NonNull @NotNull View view, @Nullable @org.jetbrains.annotations.Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+
+        loginBtn = (Button) getActivity().findViewById(R.id.login_login_button);
+        forgotPwd  = (TextView) getActivity().findViewById(R.id.login_forgot_password);
+        register = (TextView) getActivity().findViewById(R.id.login_register);
+
+        forgotPwd.setOnClickListener(this);
+        register.setOnClickListener(this);
+
+    }
 
     @Override
     public void onClick(View view) {
@@ -79,13 +76,13 @@ public class LogInFragment extends Fragment implements View.OnClickListener {
 
 
             case (R.id.login_register):
-                System.out.println("registration");
-
+                getFragmentManager().beginTransaction().replace(R.id.login_page_frame, RegistrationFragment.newInstance()).addToBackStack(null).commit();
+                break;
 
             case (R.id.login_forgot_password):
                 System.out.println("forgot password");
+                break;
         }
     }
-
 
 }
