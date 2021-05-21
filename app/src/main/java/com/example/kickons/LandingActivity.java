@@ -15,12 +15,16 @@ import android.view.View;
 
 import com.example.kickons.ui.main.SectionsPagerAdapter;
 
+import org.json.JSONException;
+
 public class LandingActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing);
+
+        NetworkConnection networkConnection = new NetworkConnection(this);
 
         SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
 
