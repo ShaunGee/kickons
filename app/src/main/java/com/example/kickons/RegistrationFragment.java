@@ -1,5 +1,6 @@
 package com.example.kickons;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -12,9 +13,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 
 import org.jetbrains.annotations.NotNull;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 
 
 /**
@@ -71,44 +81,106 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
+        if (checkRegistrationInput()){
+            //code that executes if input is valid
+            RegistrationJSONPost registrationJSONPost = new RegistrationJSONPost(getContext(),firstName.getText().toString(),
+                    lastName.getText().toString(),email.getText().toString(),mobile.getText().toString(),
+                    age.getText().toString(),gender.getText().toString());
+
+            registrationJSONPost.post();
+        }
+        else{
+            Toast.makeText(getContext(), "Couldn't Register", Toast.LENGTH_LONG).show();
+        }
+    }
+
+    public boolean checkRegistrationInput(){
+        //returns true if all information is correct
+        boolean check = false;
         if (firstName.getText().toString().isEmpty()){
             firstName.setError("First Name is required");
             firstName.requestFocus();
-            return;
+            return check;
         }
         if (lastName.getText().toString().isEmpty()){
             lastName.setError("Last Name is required");
             lastName.requestFocus();
-            return;
+            return check;
         }
         if (email.getText().toString().isEmpty()){
             email.setError("email is required");
             email.requestFocus();
-            return;
-
-
+            return check;
         }
         if (!Patterns.EMAIL_ADDRESS.matcher(email.getText().toString()).matches()){
             email.setError("Valid email is required");
             email.requestFocus();
-            return;
+            return check;
         }
         if (mobile.getText().toString().isEmpty()){
             mobile.setError("Mobile is required");
             mobile.requestFocus();
-            return;
+            return check;
         }
         if (gender.getText().toString().isEmpty()){
             gender.setError("Gender is required");
             gender.requestFocus();
-            return;
+            return check;
         }
         if (age.getText().toString().isEmpty()){
             age.setError("Age is required");
             age.requestFocus();
-            return;
+            return check;
         }
 
         System.out.println("register");
+        check =true;
+
+        return check;
+    }
+}
+
+class RegistrationJSONPost {
+        private final String firstName,lastName,email,mobile,age,gender;
+
+        Context context;
+
+    public RegistrationJSONPost(Context context, String firstName, String lastName, String email, String mobile, String age, String gender) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.mobile = mobile;
+        this.age = age;
+        this.gender = gender;
+
+        this.context = context;
+    }
+
+    public void post(){
+        JSONObject postData = new JSONObject();
+        try {
+            postData.put("f_name", firstName);
+            postData.put("l_name", lastName);
+            postData.put("email", email);
+            postData.put("mobile", mobile);
+            postData.put("age", age);
+            postData.put("gender", gender);
+
+
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, NetworkConstants.SERVER_URL,
+                postData, null, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("could not POST at this time. Error: "+ error);
+            }
+        });
+
+        RequestQueue requestQueue = Volley.newRequestQueue(context);
+        requestQueue.add(jsonObjectRequest);
     }
 }

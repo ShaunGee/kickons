@@ -38,11 +38,11 @@ RequestQueue requestQueue;
     public NetworkConnection(Context context) {
        requestQueue = Volley.newRequestQueue(context);
        //url = "http://192.168.8.104:8000/kickons_inventory/";
-       url = "http://192.168.8.104:8000/kickons_inventory/users/1/?format=json";
 
 
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
+
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, NetworkConstants.SERVER_URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 try {
