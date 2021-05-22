@@ -39,9 +39,6 @@ RequestQueue requestQueue;
        requestQueue = Volley.newRequestQueue(context);
        //url = "http://192.168.8.104:8000/kickons_inventory/";
 
-
-
-
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, NetworkConstants.SERVER_URL, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
@@ -62,6 +59,9 @@ RequestQueue requestQueue;
 
 
         requestQueue.add(jsonObjectRequest);
+        //TODO: Password needs hashing and salt
+        //TODO: add password to registration form
+        //TODO: use firebase to authenticate users
 
     }
 
