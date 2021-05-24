@@ -1,29 +1,25 @@
-package com.example.kickons;
+package com.example.kickons.login;
 
 import android.accounts.Account;
-import android.accounts.AccountManager;
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatTextView;
 import androidx.fragment.app.Fragment;
-import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import org.jetbrains.annotations.NotNull;
+import com.example.kickons.PasswordSecurity;
+import com.example.kickons.R;
+import com.example.kickons.UserAccountManager;
+import com.example.kickons.registration.RegistrationEssential;
 
-import java.util.Arrays;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -34,11 +30,11 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
 
     Button loginBtn;
     TextView register, forgotPwd;
+    EditText userName,password;
     Account userGoogleAccount;
     UserAccountManager userAccountManager;
 
 
-    EditText userName;
 
     public LogInFragment() {
         // Required empty public constructor
@@ -82,6 +78,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
         register = (TextView) getActivity().findViewById(R.id.login_register);
 
         userName = (EditText) getActivity().findViewById(R.id.login_username);
+        password = (EditText) getActivity().findViewById(R.id.login_password);
 
         userName.setOnClickListener(this);
 
@@ -96,7 +93,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
 
 
             case (R.id.login_register):
-                getFragmentManager().beginTransaction().replace(R.id.login_page_frame, RegistrationFragment.newInstance()).addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().replace(R.id.login_page_frame, RegistrationEssential.newInstance()).addToBackStack(null).commit();
                 //userAccountManager.addUserAccount();
                 break;
 
@@ -105,6 +102,13 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
                 break;
             case (R.id.login_username):
                 System.out.println("ontouch being called");
+                //Intent intent = userAccountManager.getUserAccounts(new String[] {"com.google"});
+                //startActivity(intent);
+                break;
+
+            case (R.id.login_login_button):
+                PasswordSecurity ps = new PasswordSecurity();
+
                 //Intent intent = userAccountManager.getUserAccounts(new String[] {"com.google"});
                 //startActivity(intent);
                 break;

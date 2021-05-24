@@ -1,4 +1,4 @@
-package com.example.kickons;
+package com.example.kickons.registration;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,6 +21,8 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.kickons.NetworkConstants;
+import com.example.kickons.R;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -69,10 +71,9 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
 
         firstName = (TextView) getActivity().findViewById(R.id.registration_first_name);
         lastName = (TextView) getActivity().findViewById(R.id.registration_last_name);
-        email = (TextView) getActivity().findViewById(R.id.registration_email);
+
         mobile = (TextView) getActivity().findViewById(R.id.registration_phone);
-        gender = (TextView) getActivity().findViewById(R.id.registration_gender);
-        age = (TextView) getActivity().findViewById(R.id.registration_age);
+
 
         registerBtn = (Button) getActivity().findViewById(R.id.registration_btn);
         registerBtn.setOnClickListener(this);
@@ -81,17 +82,21 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
 
     @Override
     public void onClick(View view) {
+
+
         if (checkRegistrationInput()){
             //code that executes if input is valid
-            RegistrationJSONPost registrationJSONPost = new RegistrationJSONPost(getContext(),firstName.getText().toString(),
-                    lastName.getText().toString(),email.getText().toString(),mobile.getText().toString(),
-                    age.getText().toString(),gender.getText().toString());
+           // RegistrationJSONPost registrationJSONPost = new RegistrationJSONPost(getContext(),firstName.getText().toString(),
+                  //  lastName.getText().toString(),email.getText().toString(),mobile.getText().toString(),
+                    //age.getText().toString(),gender.getText().toString(), );
 
-            registrationJSONPost.post();
+           // registrationJSONPost.post();
         }
         else{
             Toast.makeText(getContext(), "Couldn't Register", Toast.LENGTH_LONG).show();
         }
+
+
     }
 
     public boolean checkRegistrationInput(){
@@ -140,47 +145,3 @@ public class RegistrationFragment extends Fragment implements View.OnClickListen
     }
 }
 
-class RegistrationJSONPost {
-        private final String firstName,lastName,email,mobile,age,gender;
-
-        Context context;
-
-    public RegistrationJSONPost(Context context, String firstName, String lastName, String email, String mobile, String age, String gender) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.mobile = mobile;
-        this.age = age;
-        this.gender = gender;
-
-        this.context = context;
-    }
-
-    public void post(){
-        JSONObject postData = new JSONObject();
-        try {
-            postData.put("f_name", firstName);
-            postData.put("l_name", lastName);
-            postData.put("email", email);
-            postData.put("mobile", mobile);
-            postData.put("age", age);
-            postData.put("gender", gender);
-
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, NetworkConstants.SERVER_POST_URL,
-                postData, null, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                System.out.println("could not POST at this time. Error: "+ error);
-            }
-        });
-
-        RequestQueue requestQueue = Volley.newRequestQueue(context);
-        requestQueue.add(jsonObjectRequest);
-    }
-}

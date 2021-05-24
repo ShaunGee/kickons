@@ -4,53 +4,53 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".registration.RegistrationFragment">
+    tools:context=".registration.RegistrationEssential">
 
 
     <EditText
-        android:id="@+id/registration_first_name"
+        android:id="@+id/registration_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="90dp"
-        android:layout_marginTop="94dp"
+        android:layout_marginStart="92dp"
+        android:layout_marginTop="140dp"
         android:ems="10"
-        android:hint="First Name"
-        android:inputType="textPersonName"
+        android:hint="email"
+        android:inputType="textEmailAddress"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
-        android:id="@+id/registration_last_name"
+        android:id="@+id/registration_pwd1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="92dp"
-        android:layout_marginTop="33dp"
+        android:layout_marginTop="50dp"
         android:ems="10"
-        android:hint="Last Name"
-        android:inputType="textPersonName"
+        android:hint="Enter Password"
+        android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registration_first_name" />
-
+        app:layout_constraintTop_toBottomOf="@+id/registration_email" />
 
     <EditText
-        android:id="@+id/registration_phone"
+        android:id="@+id/registration_pwd2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="92dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="38dp"
         android:ems="10"
-        android:hint="Mobile"
-        android:inputType="phone"
+        android:hint="Re-enter Password"
+        android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registration_last_name" />
+        app:layout_constraintTop_toBottomOf="@+id/registration_pwd1" />
 
     <Button
-        android:id="@+id/registration_btn"
+        android:id="@+id/registration_next_btn1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="133dp"
-        android:layout_marginTop="72dp"
-        android:text="Register"
+        android:layout_marginTop="82dp"
+        android:text="Next"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/registration_phone" />
+        app:layout_constraintTop_toBottomOf="@+id/registration_pwd2" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

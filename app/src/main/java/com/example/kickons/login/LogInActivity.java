@@ -1,10 +1,13 @@
-package com.example.kickons;
+package com.example.kickons.login;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 
 import android.os.Bundle;
 import android.widget.FrameLayout;
+
+import com.example.kickons.R;
+import com.example.kickons.login.LogInFragment;
 
 
 public class LogInActivity extends AppCompatActivity {
@@ -19,10 +22,6 @@ public class LogInActivity extends AppCompatActivity {
         FragmentManager fragmentManager  = getSupportFragmentManager();
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.login_page_frame);
         fragmentManager.beginTransaction().add(R.id.login_page_frame, LogInFragment.newInstance(), null).addToBackStack(null).commit();
-
-
-
-
 
 
     }

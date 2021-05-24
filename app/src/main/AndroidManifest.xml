@@ -30,7 +30,7 @@
         android:theme="@style/Theme.Kickons"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".LogInActivity" >
+        <activity android:name=".login.LogInActivity" >
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
