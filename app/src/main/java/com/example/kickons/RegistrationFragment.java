@@ -172,7 +172,7 @@ class RegistrationJSONPost {
             e.printStackTrace();
         }
 
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, NetworkConstants.SERVER_URL,
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, NetworkConstants.SERVER_POST_URL,
                 postData, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
