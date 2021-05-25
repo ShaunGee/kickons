@@ -1,6 +1,7 @@
 package com.example.kickons.registration;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -52,7 +53,7 @@ public class RegistrationJSONPost {
                 postData, null, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                System.out.println("could not POST at this time. Error: "+ error);
+                System.out.println("could not POST at this time. Error: " + error);
             }
         });
 

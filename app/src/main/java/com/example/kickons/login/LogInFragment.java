@@ -1,6 +1,7 @@
 package com.example.kickons.login;
 
 import android.accounts.Account;
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -80,6 +81,8 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
         userName = (EditText) getActivity().findViewById(R.id.login_username);
         password = (EditText) getActivity().findViewById(R.id.login_password);
 
+        loginBtn.setOnClickListener(this);
+
         userName.setOnClickListener(this);
 
         forgotPwd.setOnClickListener(this);
@@ -108,6 +111,11 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
 
             case (R.id.login_login_button):
                 PasswordSecurity ps = new PasswordSecurity();
+                String hashedPwd = ps.generateHash(password.getText().toString());
+
+                LoginJsonPost loginJsonPost = new LoginJsonPost(getContext(), userName, password);
+                loginJsonPost.post();
+
 
                 //Intent intent = userAccountManager.getUserAccounts(new String[] {"com.google"});
                 //startActivity(intent);
