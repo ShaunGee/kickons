@@ -53,7 +53,6 @@ public class ItemDisplayAdapter extends RecyclerView.Adapter<ItemDisplayAdapter.
                 //Activity activity = (Activity) parent.getContext();
                 //loadItemsFromDb(activity);
 
-
             }
         });
 

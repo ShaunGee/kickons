@@ -5,17 +5,13 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
-
-
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
     <uses-permission
         android:name="android.permission.MANAGE_ACCOUNTS"
         android:maxSdkVersion="22" />
-
     <uses-permission
         android:name="android.permission.MANAGE_ACCOUNTS"
         android:maxSdkVersion="22" />
-
     <uses-permission
         android:name="android.permission.MANAGE_ACCOUNTS"
         android:maxSdkVersion="22" />
@@ -30,17 +26,15 @@
         android:theme="@style/Theme.Kickons"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
-        <activity android:name=".login.LogInActivity" >
-
+        <activity android:name=".home.HomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-
-
-
+        <activity android:name=".login.LogInActivity"></activity>
         <activity
             android:name=".LandingActivity"
             android:label="@string/title_activity_landing"

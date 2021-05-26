@@ -39,9 +39,6 @@ public class BuyFragment extends Fragment {
 
     }
 
-
-
-
     public static BuyFragment newInstance() {
         // Required empty public constructor
         BuyFragment fragment = new BuyFragment();
