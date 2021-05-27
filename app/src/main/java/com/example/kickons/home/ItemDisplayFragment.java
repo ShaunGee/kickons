@@ -38,6 +38,7 @@ public class ItemDisplayFragment extends Fragment {
     RecyclerView homepageRecyclerView;
     HomeSaleItemsAdapter homeSaleItemsAdapter;
     LinearLayoutManager linearLayoutManager;
+    List<HomeItem> homeItems;
 
 
     public ItemDisplayFragment() {
@@ -63,27 +64,20 @@ public class ItemDisplayFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         getItems();
-
-        homepageRecyclerView = (RecyclerView) getActivity().findViewById(R.id.home_page_recyclerView);
-        homeSaleItemsAdapter = new HomeSaleItemsAdapter(getFragmentManager(), getContext());
-        linearLayoutManager = new LinearLayoutManager(getContext());
-
-        homepageRecyclerView.setLayoutManager(linearLayoutManager);
-        homepageRecyclerView.setAdapter(homeSaleItemsAdapter);
 
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        homeItems = new LinkedList<>();
         return inflater.inflate(R.layout.fragment_item_display, container, false);
     }
 
 
     private void getItems(){
-        List<HomeItem> h = new LinkedList<>();
+
         JsonArrayRequest request = new JsonArrayRequest(JsonObjectRequest.Method.GET, NetworkConstants.SERVER_GET_ITEMS, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
@@ -91,7 +85,7 @@ public class ItemDisplayFragment extends Fragment {
                 for (int i = 0; i<response.length();i++){
                     try {
 
-                        h.add(new HomeItem(
+                        homeItems.add(new HomeItem(
                                 new JSONObject(response.get(i).toString()).get("id").toString(),
                                 new JSONObject(response.get(i).toString()).get("item_title").toString(),
                                 new JSONObject(response.get(i).toString()).get("item_caption").toString(),
@@ -102,9 +96,8 @@ public class ItemDisplayFragment extends Fragment {
                         e.printStackTrace();
                     }
                 }
-                System.out.println("23 size: "+ h.size());
-                homeSaleItemsAdapter.notifyItemRangeInserted(0, h.size());
 
+                loadRecyclerView();
 
             }
         }, new Response.ErrorListener() {
@@ -113,13 +106,18 @@ public class ItemDisplayFragment extends Fragment {
                 System.out.println("the error: " + error);
             }
         });
-        System.out.println("1 size: "+ h.size());
+
+
 
         Volley.newRequestQueue(getContext()).add(request);
+    }
 
-
-
-
+    private void loadRecyclerView(){
+        homepageRecyclerView = (RecyclerView) getActivity().findViewById(R.id.home_page_recyclerView);
+        homeSaleItemsAdapter = new HomeSaleItemsAdapter(getFragmentManager(), homeItems);
+        linearLayoutManager = new LinearLayoutManager(getContext());
+        homepageRecyclerView.setLayoutManager(linearLayoutManager);
+        homepageRecyclerView.setAdapter(homeSaleItemsAdapter);
     }
 
 }

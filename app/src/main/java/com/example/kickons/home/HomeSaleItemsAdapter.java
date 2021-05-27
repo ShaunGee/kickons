@@ -35,17 +35,17 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     Context context;
 
-    public HomeSaleItemsAdapter(FragmentManager fragmentManager, Context context) {
+    public HomeSaleItemsAdapter(FragmentManager fragmentManager, List<HomeItem> homeItemlist) {
 
         //List to be tested
         testList = test();
         this.fragmentManager = fragmentManager;
-        //this.homeItemlist = getItems();
+        this.homeItemlist = homeItemlist;
         this.context = context;
-
-
-
     }
+
+    public void addItemToList(int pos){}
+    public void removeItemFromList(int pos){}
 
 
     @NonNull
@@ -68,9 +68,9 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView caption = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_caption);
         TextView price = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_item_price);
 
-        title.setText(testList.get(position).getTitle());
-        caption.setText(testList.get(position).getCaption());
-        price.setText(testList.get(position).getPrice());
+        title.setText(homeItemlist.get(position).getTitle());
+        caption.setText(homeItemlist.get(position).getCaption());
+        price.setText(homeItemlist.get(position).getPrice());
 
 
 
@@ -79,7 +79,7 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
     @Override
     public int getItemCount() {
-        return testList.size();
+        return homeItemlist.size();
     }
 
      private class ItemForSaleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
