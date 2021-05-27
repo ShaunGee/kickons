@@ -15,11 +15,14 @@ import android.view.ViewGroup;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.kickons.NetworkConstants;
 import com.example.kickons.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.LinkedList;
@@ -63,41 +66,14 @@ public class ItemDisplayFragment extends Fragment {
 
         getItems();
 
-
         homepageRecyclerView = (RecyclerView) getActivity().findViewById(R.id.home_page_recyclerView);
-        homeSaleItemsAdapter = new HomeSaleItemsAdapter(getFragmentManager());
-
+        homeSaleItemsAdapter = new HomeSaleItemsAdapter(getFragmentManager(), getContext());
         linearLayoutManager = new LinearLayoutManager(getContext());
 
         homepageRecyclerView.setLayoutManager(linearLayoutManager);
         homepageRecyclerView.setAdapter(homeSaleItemsAdapter);
 
-
-
     }
-
-    private void getItems(){
-        List<HomeItem> l = new LinkedList<>();
-
-        JSONObject jsonObject = new JSONObject();
-        JsonObjectRequest request = new JsonObjectRequest(JsonObjectRequest.Method.GET, NetworkConstants.SERVER_GET_ITEMS, null,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        System.out.println(response);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-
-            }
-        });
-
-        Volley.newRequestQueue(getContext()).add(request);
-
-        //return l;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,5 +81,45 @@ public class ItemDisplayFragment extends Fragment {
         return inflater.inflate(R.layout.fragment_item_display, container, false);
     }
 
+
+    private void getItems(){
+        List<HomeItem> h = new LinkedList<>();
+        JsonArrayRequest request = new JsonArrayRequest(JsonObjectRequest.Method.GET, NetworkConstants.SERVER_GET_ITEMS, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+
+                for (int i = 0; i<response.length();i++){
+                    try {
+
+                        h.add(new HomeItem(
+                                new JSONObject(response.get(i).toString()).get("id").toString(),
+                                new JSONObject(response.get(i).toString()).get("item_title").toString(),
+                                new JSONObject(response.get(i).toString()).get("item_caption").toString(),
+                                new JSONObject(response.get(i).toString()).get("item_price").toString(),
+                                "no images yet"
+                        ));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                System.out.println("23 size: "+ h.size());
+                homeSaleItemsAdapter.notifyItemRangeInserted(0, h.size());
+
+
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                System.out.println("the error: " + error);
+            }
+        });
+        System.out.println("1 size: "+ h.size());
+
+        Volley.newRequestQueue(getContext()).add(request);
+
+
+
+
+    }
 
 }

@@ -7,29 +7,54 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.kickons.NetworkConstants;
 import com.example.kickons.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.LinkedList;
 import java.util.List;
 
 public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     List<TestItemAdapter> testList;
     FragmentManager fragmentManager;
+    List<HomeItem> homeItemlist;
 
-    public HomeSaleItemsAdapter(FragmentManager fragmentManager) {
+    Context context;
+
+    public HomeSaleItemsAdapter(FragmentManager fragmentManager, Context context) {
+
         //List to be tested
         testList = test();
         this.fragmentManager = fragmentManager;
+        //this.homeItemlist = getItems();
+        this.context = context;
+
+
 
     }
+
 
     @NonNull
     @Override
     public ItemForSaleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_page_sale_item_card, parent,false);
+
+
+
         return new ItemForSaleViewHolder(itemCard, fragmentManager);
     }
 
@@ -43,13 +68,14 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView caption = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_caption);
         TextView price = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_item_price);
 
-        title.setText(testList.get(position).getTittle());
+        title.setText(testList.get(position).getTitle());
         caption.setText(testList.get(position).getCaption());
         price.setText(testList.get(position).getPrice());
 
 
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -103,7 +129,7 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
             return price;
         }
 
-        public String getTittle() {
+        public String getTitle() {
             return tittle;
         }
 
@@ -127,4 +153,6 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
         return l;
     }
+
+
 }
