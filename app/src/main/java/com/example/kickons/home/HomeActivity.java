@@ -1,6 +1,8 @@
 package com.example.kickons.home;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
@@ -16,13 +18,8 @@ public class HomeActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
-
-        homepageRecyclerView = (RecyclerView) findViewById(R.id.home_page_recyclerView);
-        homeSaleItemsAdapter = new HomeSaleItemsAdapter(this);
-        homepageRecyclerView.setAdapter(homeSaleItemsAdapter);
-
-
-
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().add( R.id.home_page_frameLayout,ItemDisplayFragment.newInstance(null,null)).commit();
 
     }
 }
