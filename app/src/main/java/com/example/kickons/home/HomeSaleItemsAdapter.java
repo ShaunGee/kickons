@@ -1,10 +1,12 @@
 package com.example.kickons.home;
 import android.app.Activity;
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +22,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.kickons.NetworkConstants;
 import com.example.kickons.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -67,10 +70,17 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
         TextView title = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_title);
         TextView caption = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_caption);
         TextView price = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_item_price);
+        TextView hiddenImgUrl = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_display_img_url);
+        ImageView itemImg = saleItem.findViewById(R.id.home_page_sale_item_card_display_img);
+
 
         title.setText(homeItemlist.get(position).getTitle());
         caption.setText(homeItemlist.get(position).getCaption());
         price.setText(homeItemlist.get(position).getPrice());
+        hiddenImgUrl.setText(homeItemlist.get(position).getImg());
+        Picasso.get().load(homeItemlist.get(position).getImg()).into(itemImg);
+
+
 
 
 
@@ -98,13 +108,17 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
             TextView title = view.findViewById(R.id.home_page_sale_item_card_title);
              TextView caption = view.findViewById(R.id.home_page_sale_item_card_caption);
              TextView price = view.findViewById(R.id.home_page_sale_item_card_item_price);
+             TextView hiddenImgUrl = (TextView) view.findViewById(R.id.home_page_sale_item_card_display_img_url);
 
              EnterUserLocationFragment enterUserLocationFragment = new EnterUserLocationFragment();
              Bundle b = new Bundle();
              b.putString("title", title.getText().toString());
              b.putString("caption", caption.getText().toString());
              b.putString("price", price.getText().toString());
+             b.putString("image_url", hiddenImgUrl.getText().toString());
              enterUserLocationFragment.setArguments(b);
+
+
 
              fragmentManager.beginTransaction().replace(R.id.home_page_frameLayout, enterUserLocationFragment).addToBackStack(null).commit();
          }

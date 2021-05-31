@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
@@ -45,7 +44,6 @@ public class ItemDisplayFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     // TODO: Rename and change types and number of parameters
     public static ItemDisplayFragment newInstance(String param1, String param2) {
         ItemDisplayFragment fragment = new ItemDisplayFragment();
@@ -58,15 +56,14 @@ public class ItemDisplayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getItems();
-
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -74,7 +71,6 @@ public class ItemDisplayFragment extends Fragment {
         homeItems = new LinkedList<>();
         return inflater.inflate(R.layout.fragment_item_display, container, false);
     }
-
 
     private void getItems(){
 
@@ -84,13 +80,13 @@ public class ItemDisplayFragment extends Fragment {
 
                 for (int i = 0; i<response.length();i++){
                     try {
-
+                        //creates a list of json objects from the provided json object list
                         homeItems.add(new HomeItem(
                                 new JSONObject(response.get(i).toString()).get("id").toString(),
                                 new JSONObject(response.get(i).toString()).get("item_title").toString(),
                                 new JSONObject(response.get(i).toString()).get("item_caption").toString(),
                                 new JSONObject(response.get(i).toString()).get("item_price").toString(),
-                                "no images yet"
+                                new JSONObject(response.get(i).toString()).get("item_image").toString()
                         ));
                     } catch (JSONException e) {
                         e.printStackTrace();
@@ -106,9 +102,6 @@ public class ItemDisplayFragment extends Fragment {
                 System.out.println("the error: " + error);
             }
         });
-
-
-
         Volley.newRequestQueue(getContext()).add(request);
     }
 

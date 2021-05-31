@@ -10,10 +10,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import com.example.kickons.R;
+import com.squareup.picasso.Picasso;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -79,11 +81,13 @@ public class ItemPurchaseDetailFragment extends Fragment implements View.OnClick
         TextView caption = view.findViewById(R.id.selected_item_caption);
         TextView price = view.findViewById(R.id.selected_item_price);
         TextView location = view.findViewById(R.id.selected_item_location);
+        ImageView img = view.findViewById(R.id.selected_item_Img);
 
         test.setText(b.get("title").toString());
         caption.setText(b.get("caption").toString());
         price.setText(b.get("price").toString());
         location.setText((b.get("location").toString()));
+        Picasso.get().load(b.get("image_url").toString()).into(img);
     }
 
     @Override
