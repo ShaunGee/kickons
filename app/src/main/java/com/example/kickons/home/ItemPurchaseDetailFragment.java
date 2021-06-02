@@ -81,6 +81,7 @@ public class ItemPurchaseDetailFragment extends Fragment implements View.OnClick
 
         if (view.getId() == R.id.selected_item_confirm_btn){
                 DeliveryTrackerFragment deliveryTrackerFragment = new DeliveryTrackerFragment();
+                deliveryTrackerFragment.setArguments(b);
                 getFragmentManager().beginTransaction().replace(R.id.home_page_frameLayout, deliveryTrackerFragment).addToBackStack(null).commit();
         }
 

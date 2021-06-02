@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.kickons.R;
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -18,7 +19,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class DeliveryTrackerFragment extends Fragment {
-
+    Bundle b;
+    Double lon, lat;
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -32,9 +34,13 @@ public class DeliveryTrackerFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+            lon = b.getDouble("location_long");
+            lat = b.getDouble("location_lat") ;
+            LatLng location = new LatLng(lat, lon);
+            googleMap.addMarker(new MarkerOptions().position(location).title(b.getString("location")));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, googleMap.getMaxZoomLevel() - 4f));
+
         }
     };
 
@@ -43,6 +49,8 @@ public class DeliveryTrackerFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        b = getArguments();
+
         return inflater.inflate(R.layout.fragment_delivery_tracker, container, false);
     }
 
