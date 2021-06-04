@@ -19,6 +19,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
         FragmentManager fragmentManager = getSupportFragmentManager();
+        ItemDisplayFragment itemDisplayFragment = new ItemDisplayFragment();
         fragmentManager.beginTransaction().add( R.id.home_page_frameLayout,ItemDisplayFragment.newInstance(null,null)).commit();
 
     }

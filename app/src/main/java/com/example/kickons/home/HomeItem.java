@@ -1,14 +1,14 @@
 package com.example.kickons.home;
 
 public class HomeItem {
-    private String id;
+    private Integer id;
     private String title;
     private String caption;
     private String price;
     private String img;
 
 
-    public HomeItem(String id, String title, String caption, String price, String img) {
+    public HomeItem(Integer id, String title, String caption, String price, String img) {
         this.id = id;
         this.title= title;
         this.caption = caption;
@@ -18,7 +18,7 @@ public class HomeItem {
     }
 
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 

@@ -61,6 +61,7 @@ public class ItemDisplayFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         getItems();
     }
 
@@ -82,7 +83,7 @@ public class ItemDisplayFragment extends Fragment {
                     try {
                         //creates a list of json objects from the provided json object list
                         homeItems.add(new HomeItem(
-                                new JSONObject(response.get(i).toString()).get("id").toString(),
+                                (Integer) new JSONObject(response.get(i).toString()).get("id"),
                                 new JSONObject(response.get(i).toString()).get("item_title").toString(),
                                 new JSONObject(response.get(i).toString()).get("item_caption").toString(),
                                 new JSONObject(response.get(i).toString()).get("item_price").toString(),
@@ -106,8 +107,9 @@ public class ItemDisplayFragment extends Fragment {
     }
 
     private void loadRecyclerView(){
+        Bundle b = this.getArguments();
         homepageRecyclerView = (RecyclerView) getActivity().findViewById(R.id.home_page_recyclerView);
-        homeSaleItemsAdapter = new HomeSaleItemsAdapter(getFragmentManager(), homeItems);
+        homeSaleItemsAdapter = new HomeSaleItemsAdapter(getFragmentManager(), homeItems, b);
         linearLayoutManager = new LinearLayoutManager(getContext());
         homepageRecyclerView.setLayoutManager(linearLayoutManager);
         homepageRecyclerView.setAdapter(homeSaleItemsAdapter);

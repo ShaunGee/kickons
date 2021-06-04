@@ -1,6 +1,7 @@
 package com.example.kickons.home;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -35,11 +36,12 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
     List<TestItemAdapter> testList;
     FragmentManager fragmentManager;
     List<HomeItem> homeItemlist;
+    Bundle bundle;
 
     Context context;
 
-    public HomeSaleItemsAdapter(FragmentManager fragmentManager, List<HomeItem> homeItemlist) {
-
+    public HomeSaleItemsAdapter(FragmentManager fragmentManager, List<HomeItem> homeItemlist, Bundle bundle) {
+        this.bundle = bundle;
         //List to be tested
         testList = test();
         this.fragmentManager = fragmentManager;
@@ -57,7 +59,6 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
         View itemCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_page_sale_item_card, parent,false);
 
 
-
         return new ItemForSaleViewHolder(itemCard, fragmentManager);
     }
 
@@ -67,13 +68,14 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
         CardView saleItem = (CardView) holder.itemView;
 
         //ImageView displayImg = (ImageView) saleItem.findViewById(R.id.home_page_sale_item_card_display_img);
+        TextView itemId = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_item_id);
         TextView title = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_title);
         TextView caption = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_caption);
         TextView price = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_item_price);
         TextView hiddenImgUrl = (TextView) saleItem.findViewById(R.id.home_page_sale_item_card_display_img_url);
         ImageView itemImg = saleItem.findViewById(R.id.home_page_sale_item_card_display_img);
 
-
+        itemId.setText(String.valueOf(homeItemlist.get(position).getId()));
         title.setText(homeItemlist.get(position).getTitle());
         caption.setText(homeItemlist.get(position).getCaption());
         price.setText(homeItemlist.get(position).getPrice());
@@ -105,18 +107,20 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
 
          @Override
          public void onClick(View view) {
+            //get specific view information of click
+             TextView itemId = (TextView) view.findViewById(R.id.home_page_sale_item_card_item_id);
             TextView title = view.findViewById(R.id.home_page_sale_item_card_title);
              TextView caption = view.findViewById(R.id.home_page_sale_item_card_caption);
              TextView price = view.findViewById(R.id.home_page_sale_item_card_item_price);
              TextView hiddenImgUrl = (TextView) view.findViewById(R.id.home_page_sale_item_card_display_img_url);
 
              EnterUserLocationFragment enterUserLocationFragment = new EnterUserLocationFragment();
-             Bundle b = new Bundle();
-             b.putString("title", title.getText().toString());
-             b.putString("caption", caption.getText().toString());
-             b.putString("price", price.getText().toString());
-             b.putString("image_url", hiddenImgUrl.getText().toString());
-             enterUserLocationFragment.setArguments(b);
+             bundle.putInt("item_id", Integer.valueOf(itemId.getText().toString()));
+             bundle.putString("item_title", title.getText().toString());
+             bundle.putString("item_caption", caption.getText().toString()); //TODO: FIXXXXX
+             bundle.putString("item_price", price.getText().toString());
+             bundle.putString("item_image_url", hiddenImgUrl.getText().toString());
+             enterUserLocationFragment.setArguments(bundle);
 
 
 

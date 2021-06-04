@@ -38,6 +38,8 @@ public class DeliveryTrackerFragment extends Fragment {
             lat = b.getDouble("location_lat") ;
             LatLng location = new LatLng(lat, lon);
             googleMap.addMarker(new MarkerOptions().position(location).title(b.getString("location")));
+            googleMap.addMarker(new MarkerOptions().position(new LatLng(-33.865143f, 151.209900f)).title(b.getString("Sydney")));
+
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(location));
             googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(location, googleMap.getMaxZoomLevel() - 4f));
 

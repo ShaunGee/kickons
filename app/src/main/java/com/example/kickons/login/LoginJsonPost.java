@@ -16,6 +16,7 @@ import com.example.kickons.LandingActivity;
 import com.example.kickons.NetworkConnection;
 import com.example.kickons.NetworkConstants;
 import com.example.kickons.PasswordSecurity;
+import com.example.kickons.home.HomeActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,6 +36,7 @@ public class LoginJsonPost {
     }
 
     public void post(){
+        //Boolean access = false;
         JSONObject postData = new JSONObject();
 
         PasswordSecurity ps = new PasswordSecurity();
@@ -55,7 +57,7 @@ public class LoginJsonPost {
                     Toast.makeText(context, (String) response.get("status"), Toast.LENGTH_LONG).show();
                     String r = (String) response.get("status");
                     if (r.contains("logged in")){
-                        Intent intent = new Intent(context, LandingActivity.class);
+                        Intent intent = new Intent(context, HomeActivity.class);
                         context.startActivity(intent);
                     }
                 } catch (JSONException e) {
