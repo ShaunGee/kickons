@@ -27,16 +27,16 @@ public class LoginJsonPost {
     Context context;
     EditText username, password;
 
-    public LoginJsonPost(Context context, EditText username, EditText password) {
+
+    LoginJsonPost(Context context, EditText username, EditText password) {
 
         this.username = username;
         this.password = password;
-
         this.context = context;
+
     }
 
-    public void post(){
-        //Boolean access = false;
+    public void login(){
         JSONObject postData = new JSONObject();
 
         PasswordSecurity ps = new PasswordSecurity();
@@ -57,13 +57,18 @@ public class LoginJsonPost {
                     Toast.makeText(context, (String) response.get("status"), Toast.LENGTH_LONG).show();
                     String r = (String) response.get("status");
                     if (r.contains("logged in")){
+
                         Intent intent = new Intent(context, HomeActivity.class);
+                        intent.putExtra("user_id", (Integer) response.get("user_id"));
+                        intent.putExtra("user_fname", (String) response.get("f_name"));
+                        intent.putExtra("user_lname", (String) response.get("l_name"));
+                        intent.putExtra("user_email", (String) response.get("email"));
+
                         context.startActivity(intent);
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-
             }
         }, new Response.ErrorListener() {
             @Override
@@ -75,6 +80,7 @@ public class LoginJsonPost {
 
         RequestQueue requestQueue = Volley.newRequestQueue(context);
         requestQueue.add(jsonObjectRequest);
+
     }
 
 

@@ -34,9 +34,6 @@ import org.json.JSONObject;
  * create an instance of this fragment.
  */
 public class ItemPurchaseDetailFragment extends Fragment implements View.OnClickListener {
-
-
-
     Bundle b;
 
     public ItemPurchaseDetailFragment() {
@@ -94,11 +91,11 @@ public class ItemPurchaseDetailFragment extends Fragment implements View.OnClick
         if (view.getId() == R.id.selected_item_confirm_btn){
 
                 sendLocationToServer(b.getDouble("location_long"), b.getDouble("location_lat"),
-                        1, b.getInt("item_id")); //TODO: add test user id and item id once youve set up foriengn key in backend and login
+                        b.getInt("user_id"), b.getInt("item_id")); //TODO: add test user id and item id once youve set up foriengn key in backend and login
 
-                DeliveryTrackerFragment deliveryTrackerFragment = new DeliveryTrackerFragment();
-                deliveryTrackerFragment.setArguments(b);
-                getFragmentManager().beginTransaction().replace(R.id.home_page_frameLayout, deliveryTrackerFragment).addToBackStack(null).commit();
+                ItemOnItsWay itemOnItsWay = new ItemOnItsWay();
+                itemOnItsWay.setArguments(b);
+                getFragmentManager().beginTransaction().replace(R.id.home_page_frameLayout, itemOnItsWay).addToBackStack(null).commit();
         }
     }
 

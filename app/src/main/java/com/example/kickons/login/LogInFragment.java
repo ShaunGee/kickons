@@ -114,7 +114,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
                 String hashedPwd = ps.generateHash(password.getText().toString());
 
                 LoginJsonPost loginJsonPost = new LoginJsonPost(getContext(), userName, password);
-                loginJsonPost.post();
+                loginJsonPost.login();
 
 
                 //Intent intent = userAccountManager.getUserAccounts(new String[] {"com.google"});

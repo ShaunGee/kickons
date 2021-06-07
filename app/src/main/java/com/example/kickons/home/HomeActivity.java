@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.widget.FrameLayout;
 
 import com.example.kickons.R;
 
@@ -20,7 +22,11 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home);
         FragmentManager fragmentManager = getSupportFragmentManager();
         ItemDisplayFragment itemDisplayFragment = new ItemDisplayFragment();
-        fragmentManager.beginTransaction().add( R.id.home_page_frameLayout,ItemDisplayFragment.newInstance(null,null)).commit();
+        Bundle bundle = new Bundle();
+        bundle.putInt("user_id", getIntent().getIntExtra("user_id", 0));
+        itemDisplayFragment.setArguments(bundle);
+        fragmentManager.beginTransaction().add( R.id.home_page_frameLayout,itemDisplayFragment).commit();
 
     }
+
 }
