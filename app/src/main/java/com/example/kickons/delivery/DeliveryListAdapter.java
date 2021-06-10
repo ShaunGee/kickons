@@ -1,5 +1,7 @@
 package com.example.kickons.delivery;
 
+import android.content.Context;
+import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,19 +18,22 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.kickons.R;
 import com.squareup.picasso.Picasso;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
-public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapter.ItemView>{
+public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapter.ItemView> {
 
     List<DeliveryDetails> listOfDeliveries;
     FragmentManager fragmentManager;
     DeliveryDetails selectedDelivery;
+    Context context;
 
 
-    public DeliveryListAdapter(List<DeliveryDetails> listOfDeliveries, FragmentManager fragmentManager) {
+    public DeliveryListAdapter(List<DeliveryDetails> listOfDeliveries, FragmentManager fragmentManager, Context context) {
         this.listOfDeliveries = listOfDeliveries;
         this.fragmentManager = fragmentManager;
+        this.context = context;
     }
 
     @NonNull
@@ -42,6 +47,8 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
     @Override
     public void onBindViewHolder(@NonNull ItemView holder, int position) {
 
+        try {
+
         TextView deliveryonRoute = holder.itemView.findViewById(R.id.delivery_card_view_on_route);
         TextView deliveryItemName = holder.itemView.findViewById(R.id.delivery_card_view_on_item_name);
         TextView deliveryAddress = holder.itemView.findViewById(R.id.delivery_card_view_on_delivery_address);
@@ -51,8 +58,30 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
         deliveryItemName.setText(String.valueOf(listOfDeliveries.get(position).getItem_title()));
         Picasso.get().load(listOfDeliveries.get(position).getItem_img()).into(deliveryItemImg);
 
-        //returns and sets first address result using the lat and long values
-        deliveryAddress.setText(String.valueOf(listOfDeliveries.get(position).getAddress().getAddressLine(0)));
+        //set Textview address result using the lat and long values from DeliveryDetails
+        Geocoder geocoder = new Geocoder(context);
+        Double deliveryLat = listOfDeliveries.get(position).getDelivery_latitude();
+        Double deliveryLong = listOfDeliveries.get(position).getDelivery_latitude();
+        Address address = geocoder.getFromLocation(deliveryLat,deliveryLong, 1).get(0);
+        deliveryAddress.setText(address.getAddressLine(0));
+
+        //onclick listener to handle itemclick
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DeliveryDetailDisplayFragment deliveryDetailDisplayFragment = new DeliveryDetailDisplayFragment();
+
+                //create a new bundle to be sent to deliveryDetailDisplay Fragment and put the DeliveryDetail object
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("selected_delevery_details", listOfDeliveries.get(position));
+                deliveryDetailDisplayFragment.setArguments(bundle);
+
+                fragmentManager.beginTransaction().replace(R.id.delivery_activity_frame_layout, deliveryDetailDisplayFragment).commit();
+            }
+        });
+        } catch (IOException e) {
+            e.printStackTrace(); //incase address is not findable
+        }
 
     }
 
@@ -63,30 +92,16 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
     }
 
 
-
-
-     class ItemView extends  RecyclerView.ViewHolder implements View.OnClickListener, Serializable {
+    class ItemView extends  RecyclerView.ViewHolder {
          FragmentManager fragmentManager;
 
         public ItemView(@NonNull View itemView, FragmentManager fragmentManager) {
             super(itemView);
             this.fragmentManager = fragmentManager;
-            itemView.setOnClickListener(this);
+
 
 
         }
 
-         @Override
-         public void onClick(View view) {
-
-            DeliveryDetailDisplayFragment deliveryDetailDisplayFragment = new DeliveryDetailDisplayFragment();
-            //create a new bundle to be sent to deliveryDetailDisplay Fragment and put the delivery_id to it so further fragments know what
-             Bundle bundle = deliveryDetailDisplayFragment.getArguments();
-
-
-            deliveryDetailDisplayFragment.setArguments(bundle);
-            fragmentManager.beginTransaction().replace(R.id.delivery_activity_frame_layout, deliveryDetailDisplayFragment).commit();
-
-         }
      }
 }

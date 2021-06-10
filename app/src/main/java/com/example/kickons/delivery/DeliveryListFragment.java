@@ -84,8 +84,8 @@ public class DeliveryListFragment extends Fragment {
                         Integer user_id = (Integer) response.getJSONObject(i).get("user_id");
                         String item_img = (String) response.getJSONObject(i).getJSONObject("item_id").get("item_image");
                         String item_title = (String) response.getJSONObject(i).getJSONObject("item_id").get("item_title");
-                        Geocoder geocoder = new Geocoder(getContext());
-                        Address deliveryAddress = geocoder.getFromLocation(delivery_lat, delivery_long,1).get(0);
+                        //Geocoder geocoder = new Geocoder(getContext());
+                        //Address deliveryAddress = geocoder.getFromLocation(delivery_lat, delivery_long,1).get(0);
 
 
                         dd.add(new DeliveryDetails(
@@ -97,11 +97,11 @@ public class DeliveryListFragment extends Fragment {
                                 item_id,
                                 user_id,
                                 item_img,
-                                item_title,
-                                deliveryAddress
+                                item_title
+
 
                         ));
-                    } catch (JSONException | IOException e) {
+                    } catch (JSONException e) {
                         e.printStackTrace();
 
                     }
@@ -121,7 +121,7 @@ public class DeliveryListFragment extends Fragment {
     private void listItems(List<DeliveryDetails> dd) {
 
         RecyclerView recyclerView = getActivity().findViewById(R.id.delivery_list_recycler_view);
-        DeliveryListAdapter deliveryListAdapter = new DeliveryListAdapter(dd, getFragmentManager());
+        DeliveryListAdapter deliveryListAdapter = new DeliveryListAdapter(dd, getFragmentManager(), getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(linearLayoutManager);

@@ -3,7 +3,7 @@ package com.example.kickons;
 public class NetworkConstants {
 
     //hostAddrTestServer points to the server
-    static String hostAddrTestServer = "192.168.1.102";
+    static String hostAddrTestServer = "192.168.8.104";
 
 
     public static String SERVER_URL = "http://"+hostAddrTestServer +":8000/kickons_inventory/users/1/?format=json"; //TEST CHANGE TO A DYNAMIC
