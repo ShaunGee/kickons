@@ -14,7 +14,10 @@ public class DeliveryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivery);
 
-        FrameLayout frameLayout = findViewById(R.id.delivery_activity_frame_layout);
+        DeliveryListFragment deliveryListFragment = new DeliveryListFragment();
+
+
+        getSupportFragmentManager().beginTransaction().add(R.id.delivery_activity_frame_layout, deliveryListFragment).commit();
 
 
 

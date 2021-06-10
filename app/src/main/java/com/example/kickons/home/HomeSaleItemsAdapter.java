@@ -58,7 +58,6 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
     public ItemForSaleViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemCard = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_page_sale_item_card, parent,false);
 
-
         return new ItemForSaleViewHolder(itemCard, fragmentManager);
     }
 
@@ -83,9 +82,6 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
         Picasso.get().load(homeItemlist.get(position).getImg()).into(itemImg);
 
 
-
-
-
     }
 
 
@@ -94,9 +90,13 @@ public class HomeSaleItemsAdapter extends RecyclerView.Adapter<RecyclerView.View
         return homeItemlist.size();
     }
 
+
+
      private class ItemForSaleViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private CardView saleCard;
         FragmentManager fragmentManager;
+
+
         public ItemForSaleViewHolder(@NonNull View saleCard, FragmentManager fragmentManager) {
             super(saleCard);
             saleCard.setOnClickListener(this);

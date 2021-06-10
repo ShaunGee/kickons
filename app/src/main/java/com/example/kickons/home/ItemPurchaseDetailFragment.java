@@ -100,7 +100,7 @@ public class ItemPurchaseDetailFragment extends Fragment implements View.OnClick
     }
 
     private void sendLocationToServer(Double longtitude, Double latitude, Integer user_id, Integer item_id){
-        String url = NetworkConstants.SERVER_POST_DELIVERY;
+        String url = NetworkConstants.SERVER_GET_DELIVERIES;
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("delivery_longtitude",longtitude);

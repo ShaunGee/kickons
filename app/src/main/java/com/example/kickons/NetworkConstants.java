@@ -11,6 +11,9 @@ public class NetworkConstants {
     public static String SERVER_LOG_IN = "http://"+hostAddrTestServer +":8000/kickons_inventory/login/";
     public static String SERVER_LOG_IN_VERIFICATION = "http://"+hostAddrTestServer +":8000/kickons_inventory/login/verification/";
    public static String SERVER_GET_ITEMS =  "http://"+hostAddrTestServer +":8000/kickons_inventory/items/";
-   public static String SERVER_POST_DELIVERY = "http://"+hostAddrTestServer +":8000/kickons_inventory/delivery/";
+   public static String SERVER_GET_DELIVERIES = "http://"+hostAddrTestServer +":8000/kickons_inventory/delivery/";
+    public static String SERVER_GET_DELIVERIES_ON_ROUTE = "http://"+hostAddrTestServer +":8000/kickons_inventory/get_deliveries";
+
+    //public static String SERVER_GET_ALL_DELIVERIES = "http://"+hostAddrTestServer +":8000/kickons_inventory/delivery/";
 
 }

@@ -50,8 +50,7 @@ public class ItemOnItsWay extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, NetworkConstants.SERVER_POST_DELIVERY, null, null, null);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, NetworkConstants.SERVER_GET_DELIVERIES, null, null, null);
         Volley.newRequestQueue(Objects.requireNonNull(getContext())).add(request);
     }
 
