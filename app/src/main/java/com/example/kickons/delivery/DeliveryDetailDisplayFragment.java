@@ -12,19 +12,32 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.JsonRequest;
+import com.android.volley.toolbox.Volley;
+import com.example.kickons.NetworkConstants;
 import com.example.kickons.R;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 
-public class DeliveryDetailDisplayFragment extends Fragment {
+public class DeliveryDetailDisplayFragment extends Fragment implements View.OnClickListener {
 
     CardView deliveryItemDetailCardView;
     DeliveryMapFragment deliveryMapFragment;
     DeliveryDetails deliveryDetails;
     Bundle bundle;
+
 
     public DeliveryDetailDisplayFragment() {
         // Required empty public constructor
@@ -47,6 +60,7 @@ public class DeliveryDetailDisplayFragment extends Fragment {
         deliveryDetails = (DeliveryDetails) bundle.getSerializable("selected_delevery_details");
 
 
+
     }
 
     @Override
@@ -54,8 +68,14 @@ public class DeliveryDetailDisplayFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         deliveryItemDetailCardView = getActivity().findViewById(R.id.delivery_detail_display_item_details_cardview);
+
+        //Add bundle data so map can recieve coordinates of delivery
+        deliveryMapFragment.setArguments(bundle);
         getFragmentManager().beginTransaction().add(R.id.delivery_detail_display_frame_layout_top, deliveryMapFragment).commit();
         populateCardView();
+
+        Button accept = (Button) getActivity().findViewById(R.id.delivery_detail_display_item_details_accept_btn);
+        accept.setOnClickListener(this);
 
     }
 
@@ -94,4 +114,80 @@ public class DeliveryDetailDisplayFragment extends Fragment {
             return null;
         }
     }
+
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.delivery_detail_display_item_details_accept_btn){
+            //TODO: all tasks below
+            //check db to see if on_route still false which indicates that it is still available.
+            //If True then notify user that delivery not available anymore via TOAST notification
+            compareDbDeliveryIsOnRoute(deliveryDetails.getDeliveryId(),deliveryDetails.getOn_route());
+
+
+
+            //add DeliveryDetails to bundle
+            //start new Fragment
+
+        }
+    }
+
+    private void compareDbDeliveryIsOnRoute(Integer deliveryId,Boolean localOnRoute){
+
+
+            //add delivery_id to the end of SERVER_GET_VERIFY_DELIVERIES_ON_ROUTE so that it response will be for that specific Delivery
+        String url =  String.format("%s%s/", NetworkConstants.SERVER_GET_DELIVERIES,String.valueOf(deliveryDetails.getDeliveryId()));
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,url ,null, checkDeliveryJsonListener, errorListener);
+        Volley.newRequestQueue(getContext()).add(request);
+
+
+
+    }
+
+    private void updateOnRoute(Boolean onRoute){
+        try {
+            String url =  String.format("%s%s/", NetworkConstants.SERVER_GET_DELIVERIES,String.valueOf(deliveryDetails.getDeliveryId()));
+            //String url = NetworkConstants.SERVER_GET_DELIVERIES + String.valueOf(deliveryDetails.getDeliveryId());
+            JSONObject jsonObject = new JSONObject();
+
+            jsonObject.put("on_route", onRoute );
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonObject, null, errorListener);
+            Volley.newRequestQueue(getContext()).add(request);
+        } catch (JSONException e) {
+            e.printStackTrace();
+            System.out.println("error in connecting");
+        }
+    }
+
+
+
+
+    Response.Listener<JSONObject> checkDeliveryJsonListener = new Response.Listener<JSONObject>() {
+        @Override
+        public void onResponse(JSONObject response) {
+            System.out.println("response : " + response);
+            try {
+                response.get("on_route");
+                if ((Boolean) response.get("on_route") == deliveryDetails.getOn_route()){
+                    //update db on_route to true so other delivery users wont be able to take it
+                    updateOnRoute(true);
+                }
+                else{
+                    Toast.makeText(getContext(), "Sorry this delivery isn't available anymore", Toast.LENGTH_LONG).show();
+                }
+            }
+            catch (JSONException e){
+                e.printStackTrace();
+            }
+
+        }
+    };
+
+    Response.ErrorListener errorListener =  new Response.ErrorListener() {
+        @Override
+        public void onErrorResponse(VolleyError error) {
+
+        }
+    };
+
 }

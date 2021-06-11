@@ -73,7 +73,7 @@ public class DeliveryListFragment extends Fragment {
             @Override
             public void onResponse(JSONArray response) {
 
-                for (int i = 0; i <= response.length(); i++) {
+                for (int i = 0; i < response.length(); i++) {
                     try {
                         Integer delivery_id = (Integer) response.getJSONObject(i).get("id");
                         Boolean on_route = (Boolean) response.getJSONObject(i).get("on_route");

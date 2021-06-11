@@ -19,6 +19,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class DeliveryMapFragment extends Fragment {
 
+    Bundle bundle;
+    DeliveryDetails deliveryDetails;
+
     private OnMapReadyCallback callback = new OnMapReadyCallback() {
 
         /**
@@ -32,17 +35,22 @@ public class DeliveryMapFragment extends Fragment {
          */
         @Override
         public void onMapReady(GoogleMap googleMap) {
-            LatLng sydney = new LatLng(-34, 151);
-            googleMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
+            LatLng sydney = new LatLng(deliveryDetails.getDelivery_latitude(), deliveryDetails.getDelivery_longtitude());
+            googleMap.addMarker(new MarkerOptions().position(sydney).title("Delivery Address"));
             googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         }
     };
+
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        bundle = getArguments();
+        assert bundle != null:"Cant retrieve data from DeliveryMapFragment because bundle might be empty";
+        deliveryDetails = (DeliveryDetails) bundle.getSerializable("selected_delevery_details");
+
         return inflater.inflate(R.layout.fragment_delivery_map, container, false);
     }
 
