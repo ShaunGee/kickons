@@ -13,20 +13,18 @@
 
         <TextView
             android:id="@+id/delivery_card_view_on_route"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/carview_textView_singleLine_width"
+            android:layout_height="@dimen/carview_textView_singleLine_height"
             android:layout_marginStart="20dp"
             android:layout_marginTop="26dp"
-            android:layout_marginEnd="196dp"
             android:text="on route"
-            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/delivery_card_view_on_item_image"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/delivery_card_view_on_item_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/carview_textView_singleLine_width"
+            android:layout_height="@dimen/carview_textView_singleLine_height"
             android:layout_marginStart="20dp"
             android:layout_marginTop="25dp"
             android:text="item name"
@@ -45,8 +43,8 @@
 
         <TextView
             android:id="@+id/delivery_card_view_on_delivery_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/carview_textView_singleLine_width"
+            android:layout_height="@dimen/carview_textView_multiLine_height"
             android:layout_marginStart="20dp"
             android:layout_marginTop="29dp"
             android:text="address"

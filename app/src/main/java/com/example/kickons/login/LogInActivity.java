@@ -19,8 +19,8 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
 
+        //Start up the login Fragment
         FragmentManager fragmentManager  = getSupportFragmentManager();
-        FrameLayout frameLayout = (FrameLayout) findViewById(R.id.login_page_frame);
         fragmentManager.beginTransaction().add(R.id.login_page_frame, LogInFragment.newInstance(), null).addToBackStack(null).commit();
 
 

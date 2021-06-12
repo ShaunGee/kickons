@@ -121,7 +121,7 @@ public class DeliveryListFragment extends Fragment {
     private void listItems(List<DeliveryDetails> dd) {
 
         RecyclerView recyclerView = getActivity().findViewById(R.id.delivery_list_recycler_view);
-        DeliveryListAdapter deliveryListAdapter = new DeliveryListAdapter(dd, getFragmentManager(), getContext());
+        DeliveryListAdapter deliveryListAdapter = new DeliveryListAdapter(dd, getParentFragmentManager(), getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(linearLayoutManager);

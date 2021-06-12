@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
@@ -79,9 +80,10 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
                 fragmentManager.beginTransaction().replace(R.id.delivery_activity_frame_layout, deliveryDetailDisplayFragment).commit();
             }
         });
-        } catch (IOException e) {
+        } catch (IOException  | IndexOutOfBoundsException e) {
             e.printStackTrace(); //incase address is not findable
-        }
+            //Toast.makeText(context,"Couldn't find address", Toast.LENGTH_SHORT).show();
+            }
 
     }
 

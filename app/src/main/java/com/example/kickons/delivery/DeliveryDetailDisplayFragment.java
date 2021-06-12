@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,6 +26,7 @@ import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.kickons.NetworkConstants;
 import com.example.kickons.R;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +39,8 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
     DeliveryMapFragment deliveryMapFragment;
     DeliveryDetails deliveryDetails;
     Bundle bundle;
+    Button accept;
+    Double currentLat, currentLong;
 
 
     public DeliveryDetailDisplayFragment() {
@@ -71,10 +75,10 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
 
         //Add bundle data so map can recieve coordinates of delivery
         deliveryMapFragment.setArguments(bundle);
-        getFragmentManager().beginTransaction().add(R.id.delivery_detail_display_frame_layout_top, deliveryMapFragment).commit();
+        getParentFragmentManager().beginTransaction().add(R.id.delivery_detail_display_frame_layout_top, deliveryMapFragment).commit();
         populateCardView();
 
-        Button accept = (Button) getActivity().findViewById(R.id.delivery_detail_display_item_details_accept_btn);
+        accept = (Button) getActivity().findViewById(R.id.delivery_detail_display_item_details_accept_btn);
         accept.setOnClickListener(this);
 
     }
@@ -93,10 +97,12 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
             TextView itemName = deliveryItemDetailCardView.findViewById(R.id.delivery_card_view_on_item_name);
             TextView address = deliveryItemDetailCardView.findViewById(R.id.delivery_card_view_on_delivery_address);
             TextView onRoute = deliveryItemDetailCardView.findViewById(R.id.delivery_card_view_on_route);
+            ImageView itemImg = deliveryItemDetailCardView.findViewById(R.id.delivery_card_view_on_item_image);
 
             itemName.setText(deliveryDetails.getItem_title());
             address.setText(deliveryAddress.getAddressLine(0));
             onRoute.setText(deliveryDetails.getItem_title());
+            Picasso.get().load(deliveryDetails.getItem_img()).into(itemImg);
 
 
     }
@@ -118,15 +124,11 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
     @Override
     public void onClick(View view) {
         if (view.getId() == R.id.delivery_detail_display_item_details_accept_btn){
-            //TODO: all tasks below
+
             //check db to see if on_route still false which indicates that it is still available.
             //If True then notify user that delivery not available anymore via TOAST notification
             compareDbDeliveryIsOnRoute(deliveryDetails.getDeliveryId(),deliveryDetails.getOn_route());
 
-
-
-            //add DeliveryDetails to bundle
-            //start new Fragment
 
         }
     }
@@ -134,9 +136,9 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
     private void compareDbDeliveryIsOnRoute(Integer deliveryId,Boolean localOnRoute){
 
 
-            //add delivery_id to the end of SERVER_GET_VERIFY_DELIVERIES_ON_ROUTE so that it response will be for that specific Delivery
+        //add delivery_id to the end of SERVER_GET_VERIFY_DELIVERIES_ON_ROUTE so that it response will be for that specific Delivery
         String url =  String.format("%s%s/", NetworkConstants.SERVER_GET_DELIVERIES,String.valueOf(deliveryDetails.getDeliveryId()));
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST,url ,null, checkDeliveryJsonListener, errorListener);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,url ,null, checkDeliveryJsonListener, errorListener);
         Volley.newRequestQueue(getContext()).add(request);
 
 
@@ -145,13 +147,12 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
 
     private void updateOnRoute(Boolean onRoute){
         try {
-            String url =  String.format("%s%s/", NetworkConstants.SERVER_GET_DELIVERIES,String.valueOf(deliveryDetails.getDeliveryId()));
-            //String url = NetworkConstants.SERVER_GET_DELIVERIES + String.valueOf(deliveryDetails.getDeliveryId());
             JSONObject jsonObject = new JSONObject();
 
-            jsonObject.put("on_route", onRoute );
+            jsonObject.put("id", deliveryDetails.getDeliveryId());
+            jsonObject.put("on_route", true);
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, url, jsonObject, null, errorListener);
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, NetworkConstants.SERVER_UPDATE_ROUTE_STATUS, jsonObject, null, errorListener);
             Volley.newRequestQueue(getContext()).add(request);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -165,12 +166,14 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
     Response.Listener<JSONObject> checkDeliveryJsonListener = new Response.Listener<JSONObject>() {
         @Override
         public void onResponse(JSONObject response) {
-            System.out.println("response : " + response);
             try {
-                response.get("on_route");
                 if ((Boolean) response.get("on_route") == deliveryDetails.getOn_route()){
                     //update db on_route to true so other delivery users wont be able to take it
                     updateOnRoute(true);
+
+                    DeliveryCurrentJobs dm = new DeliveryCurrentJobs();
+                    dm.setArguments(bundle);
+                    getParentFragmentManager().beginTransaction().replace(R.id.delivery_activity_frame_layout, dm).commit();
                 }
                 else{
                     Toast.makeText(getContext(), "Sorry this delivery isn't available anymore", Toast.LENGTH_LONG).show();

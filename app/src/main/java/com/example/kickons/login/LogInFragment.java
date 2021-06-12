@@ -1,7 +1,7 @@
 package com.example.kickons.login;
 
 import android.accounts.Account;
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,9 +15,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.kickons.PasswordSecurity;
 import com.example.kickons.R;
 import com.example.kickons.UserAccountManager;
+import com.example.kickons.delivery.DeliveryActivity;
+import com.example.kickons.home.HomeActivity;
 import com.example.kickons.registration.RegistrationEssential;
 
 import org.jetbrains.annotations.NotNull;
@@ -77,14 +78,12 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
         loginBtn = (Button) getActivity().findViewById(R.id.login_login_button);
         forgotPwd  = (TextView) getActivity().findViewById(R.id.login_forgot_password);
         register = (TextView) getActivity().findViewById(R.id.login_register);
-
         userName = (EditText) getActivity().findViewById(R.id.login_username);
         password = (EditText) getActivity().findViewById(R.id.login_password);
 
+        //set onclick listeners
         loginBtn.setOnClickListener(this);
-
         userName.setOnClickListener(this);
-
         forgotPwd.setOnClickListener(this);
         register.setOnClickListener(this);
 
@@ -96,6 +95,7 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
 
 
             case (R.id.login_register):
+
                 getFragmentManager().beginTransaction().replace(R.id.login_page_frame, RegistrationEssential.newInstance()).addToBackStack(null).commit();
                 //userAccountManager.addUserAccount();
                 break;
@@ -110,15 +110,14 @@ public class LogInFragment extends Fragment implements View.OnClickListener{
                 break;
 
             case (R.id.login_login_button):
-                PasswordSecurity ps = new PasswordSecurity();
-                String hashedPwd = ps.generateHash(password.getText().toString());
-
                 LoginJsonPost loginJsonPost = new LoginJsonPost(getContext(), userName, password);
                 loginJsonPost.login();
 
+                //Check to see if credentials are verified
+                //Check to see if user is a driver or buyer
+                //point them to correct activity
 
-                //Intent intent = userAccountManager.getUserAccounts(new String[] {"com.google"});
-                //startActivity(intent);
+
                 break;
         }
     }

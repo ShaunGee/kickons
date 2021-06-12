@@ -1,4 +1,4 @@
-package com.example.kickons;
+package com.example.kickons.login;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

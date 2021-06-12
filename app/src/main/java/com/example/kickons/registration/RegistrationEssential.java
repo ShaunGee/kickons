@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.example.kickons.PasswordSecurity;
+import com.example.kickons.login.PasswordSecurity;
 import com.example.kickons.R;
 
 /**

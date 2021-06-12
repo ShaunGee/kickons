@@ -11,4 +11,10 @@
 
     <dimen name="cardview_image_width">147dp</dimen>
     <dimen name="cardview_image_height">148dp</dimen>
+
+    <dimen name="carview_textView_singleLine_width">225dp</dimen>
+    <dimen name="carview_textView_singleLine_height">25dp</dimen>
+    <dimen name="carview_textView_multiLine_height">65dp</dimen>
+
+
 </resources>

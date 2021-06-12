@@ -1,5 +1,7 @@
 package com.example.kickons;
 
+import com.example.kickons.login.PasswordSecurity;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
