@@ -15,6 +15,8 @@ public class NetworkConstants {
     public static String SERVER_GET_DELIVERIES_ON_ROUTE = "http://"+hostAddrTestServer +":8000/kickons_inventory/get_deliveries/";
     public static String SERVER_UPDATE_ROUTE_STATUS = "http://"+hostAddrTestServer +":8000/kickons_inventory/delivery/update_on_route_status/";
 
+    public static String SERVER_GET_DELIVERIES_OF_A_USER = "http://"+hostAddrTestServer +":8000/kickons_inventory/deliverer/";
+
 
     //public static String SERVER_GET_ALL_DELIVERIES = "http://"+hostAddrTestServer +":8000/kickons_inventory/delivery/";
 

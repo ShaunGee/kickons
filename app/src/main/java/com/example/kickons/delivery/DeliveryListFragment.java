@@ -34,6 +34,9 @@ import java.util.List;
 public class DeliveryListFragment extends Fragment {
 
 
+    Integer deliverer_id;
+
+
     public DeliveryListFragment() {
         // Required empty public constructor
     }
@@ -48,6 +51,8 @@ public class DeliveryListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        deliverer_id = getArguments().getInt("deliverer_id");
+
     }
 
     @Override
@@ -97,7 +102,8 @@ public class DeliveryListFragment extends Fragment {
                                 item_id,
                                 user_id,
                                 item_img,
-                                item_title
+                                item_title,
+                                deliverer_id
 
 
                         ));
@@ -114,6 +120,7 @@ public class DeliveryListFragment extends Fragment {
                 System.out.println("the error is: " + error);
             }
         });
+
         Volley.newRequestQueue(getContext()).add(request);
     }
 

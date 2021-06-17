@@ -63,6 +63,7 @@ public class LoginJsonPost {
 
                         if (isDeliverer) {
                             Intent intent = new Intent(context, DeliveryActivity.class);
+                            intent.putExtra("user_id", (Integer) response.get("user_id"));
                             context.startActivity(intent);
                         } else {
 

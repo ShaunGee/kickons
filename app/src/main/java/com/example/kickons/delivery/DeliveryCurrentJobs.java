@@ -34,6 +34,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class DeliveryCurrentJobs extends Fragment {
 
     FrameLayout listOfDeliveryMapFl, listOfDeliveryFl;
+    Bundle bundle;
 
 
     public DeliveryCurrentJobs() {
@@ -41,8 +42,9 @@ public class DeliveryCurrentJobs extends Fragment {
     }
 
 
-    // TODO: Rename and change types and number of parameters
-    public static DeliveryCurrentJobs newInstance(String param1, String param2) {
+
+    //deliverer o2o relationship with deliveries
+    public static DeliveryCurrentJobs newInstance() {
         DeliveryCurrentJobs fragment = new DeliveryCurrentJobs();
 
         return fragment;
@@ -51,6 +53,7 @@ public class DeliveryCurrentJobs extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.bundle = getArguments();
 
 
     }
@@ -66,7 +69,11 @@ public class DeliveryCurrentJobs extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         DeliverylistOfDeliveriesOnMap map = new DeliverylistOfDeliveriesOnMap();
+        DeliveryListOfAvailableJobs deliveryListOfAvailableJobs = new DeliveryListOfAvailableJobs();
+        deliveryListOfAvailableJobs.setArguments(bundle);
+        map.setArguments(bundle);
 
+        getParentFragmentManager().beginTransaction().add(R.id.delivery_current_jobs_current_jobs_frame, deliveryListOfAvailableJobs).commit();
         getParentFragmentManager().beginTransaction().add(R.id.delivery_current_jobs_map_frame, map).commit();
     }
 

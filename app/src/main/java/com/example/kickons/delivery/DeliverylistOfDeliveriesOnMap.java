@@ -9,6 +9,8 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
@@ -32,15 +34,21 @@ import com.google.android.gms.tasks.OnSuccessListener;
 public class DeliverylistOfDeliveriesOnMap extends Fragment {
 
     LatLng userCurrentLocation;
-    SupportMapFragment supportMapFragment;
-    GoogleMap gmap;
+
+
 
     OnMapReadyCallback mapCallback = googleMap -> {
-        gmap = googleMap;
-        System.out.println("map being called");
-       // googleMap.addMarker(new MarkerOptions().position(userCurrentLocation).title("Me"));
-       // googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(userCurrentLocation, 10f));
+            //setUserLocation();
+            System.out.println("map being called");
+            LatLng ds = new LatLng(43.0,1.0f);
+            googleMap.addMarker(new MarkerOptions().position(ds).title("Me"));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(ds, 10f));
+
+
+
     };
+
+
 
     ActivityResultLauncher<String> activityResultLauncher = registerForActivityResult(new ActivityResultContracts.RequestPermission(), new ActivityResultCallback<Boolean>() {
         @Override
@@ -72,23 +80,24 @@ public class DeliverylistOfDeliveriesOnMap extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setUserLocation();
+
 
 
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        SupportMapFragment supportMapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.deliveryMapDisplay);
         if (supportMapFragment != null) {
             supportMapFragment.getMapAsync(mapCallback);
 
-
         }
+    }
 
-
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_deliverylist_of_deliveries_on_map, container, false);
     }
@@ -118,17 +127,27 @@ public class DeliverylistOfDeliveriesOnMap extends Fragment {
     @SuppressLint("MissingPermission")
     private void setUserCurrentLocationPermission(){
         System.out.println("tdsfsdfs");
+        CurrentLocation  currentLocation = new CurrentLocation();
         FusedLocationProviderClient fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
-        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
-            @Override
-            public void onSuccess(Location location) {
-                userCurrentLocation = new LatLng(location.getLatitude(),location.getLongitude());
-                System.out.println("user location"+userCurrentLocation);
+        fusedLocationProviderClient.getLastLocation().addOnSuccessListener(currentLocation);
+    }
 
 
-                //TODO: how to update map with location
-            }
-        });
+    private class CurrentLocation implements OnSuccessListener<Location>{
+        LatLng location;
+
+        public CurrentLocation() {
+
+        }
+
+        public LatLng getLocation() {
+            return location;
+        }
+
+        @Override
+        public void onSuccess(Location location) {
+            this.location = new LatLng(location.getLatitude(),location.getLongitude());
+        }
     }
 
 

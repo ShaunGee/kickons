@@ -152,6 +152,7 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
             jsonObject.put("id", deliveryDetails.getDeliveryId());
             jsonObject.put("on_route", true);
 
+
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, NetworkConstants.SERVER_UPDATE_ROUTE_STATUS, jsonObject, null, errorListener);
             Volley.newRequestQueue(getContext()).add(request);
         } catch (JSONException e) {
@@ -171,9 +172,10 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
                     //update db on_route to true so other delivery users wont be able to take it
                     updateOnRoute(true);
 
-                    DeliveryCurrentJobs dm = new DeliveryCurrentJobs();
-                    dm.setArguments(bundle);
-                    getParentFragmentManager().beginTransaction().replace(R.id.delivery_activity_frame_layout, dm).commit();
+                    //enter Deliverer model with instance of this delivery
+                    createDeliveryForCurrentUser();
+
+
                 }
                 else{
                     Toast.makeText(getContext(), "Sorry this delivery isn't available anymore", Toast.LENGTH_LONG).show();
@@ -185,6 +187,34 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
 
         }
     };
+
+    private void createDeliveryForCurrentUser() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("user",deliveryDetails.getDeliverer_id());
+            jsonObject.put("delivery_details_id", deliveryDetails.getDeliveryId());
+
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, NetworkConstants.SERVER_GET_DELIVERIES_OF_A_USER,
+                    jsonObject, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    DeliveryCurrentJobs dm = new DeliveryCurrentJobs();
+                    dm.setArguments(bundle);
+                    getParentFragmentManager().beginTransaction().replace(R.id.delivery_activity_frame_layout, dm).commit();
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+
+                }
+            });
+
+            Volley.newRequestQueue(getContext()).add(request);
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
 
     Response.ErrorListener errorListener =  new Response.ErrorListener() {
         @Override
