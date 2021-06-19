@@ -56,13 +56,13 @@ public class DeliveryListOfAvailableJobs extends Fragment {
 
         //Send a request to the server to recieve all current deliveries by current delivery guy
 
-        retrieveDelievryDetails(deliveryDetails.getUser_id());
+        retrieveDelievryDetails(deliveryDetails.getDeliverer_id());
         //server returns
 
 
     }
 
-    private void retrieveDelievryDetails(Integer user_id) {
+    private void retrieveDelievryDetails(Integer deliverer_id) {
 
             List<DeliveryDetails> currentUserDeliveries = new LinkedList<>();
             //send a json request containing user idf to server
@@ -71,13 +71,13 @@ public class DeliveryListOfAvailableJobs extends Fragment {
        JSONObject jsonObject = new JSONObject();
 
         try {
-            jsonObject.put("user_id", user_id);
+            jsonObject.put("deliverer_id", deliverer_id);
             jsonArray.put(jsonObject);
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        String url = String.format("%s%s/%s",NetworkConstants.SERVER_GET_DELIVERIES_ON_ROUTE, String.valueOf(user_id),"get_all_deliveries_of_user/");
+        String url = String.format("%s%s/%s",NetworkConstants.SERVER_GET_DELIVERIES_ON_ROUTE, String.valueOf(deliverer_id),"get_all_deliveries_of_user/");
        // String url = "http://192.168.8.104:8000/kickons_inventory/get_deliveries/get_current_user_deliveries/";
 
         //TODO: why is chosen deliveries not showing - bug is that server is giving an empty response becaise maybe the server hasnt had enough time to create the new entry in deliverer
@@ -116,25 +116,31 @@ public class DeliveryListOfAvailableJobs extends Fragment {
 
         I think deliverer has a forien key to delivery. It has a delivery_id shown in its table.
         Attempt to link models
-        [] try to create a forien key attribute in delivery model
-        []
+        [X] try to create a forien key attribute in delivery model
+
+        I've creted a forein key from delivery details to deliverer that stays null until someone is assigned to the delivery
+
+        What i was trying to do earlier was establish a link between the deliverer and deliverydetails.
+
+        Finaly fixed the bug..took me two days lol
+
          */
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, NetworkConstants.SERVER_GET_DELIVERIES_ON_ROUTE, jsonArray, new Response.Listener<JSONArray>() {
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST, NetworkConstants.SERVER_GET_DELIVERIES_OF_A_USER, jsonArray, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
                 System.out.println(response);
                 for (int i = 0; i < response.length(); i++) {
                     System.out.println(response);
                     try {
-                        Integer delivery_id = (Integer) response.getJSONObject(i).get("id");
-                        Boolean on_route = (Boolean) response.getJSONObject(i).get("on_route");
-                        Boolean delivered = (Boolean) response.getJSONObject(i).get("delivered");
-                        Double delivery_long = (Double) response.getJSONObject(i).get("delivery_longtitude");
-                        Double delivery_lat = (Double) response.getJSONObject(i).get("delivery_latitude");
-                        Integer item_id = (Integer) response.getJSONObject(i).get("id");
-                        Integer user_id = (Integer) response.getJSONObject(i).get("user_id");
-                        String item_img = (String) response.getJSONObject(i).getJSONObject("item_id").get("item_image");
-                        String item_title = (String) response.getJSONObject(i).getJSONObject("item_id").get("item_title");
+                        Integer delivery_id = (Integer) response.getJSONObject(i).getJSONObject("DeliveryDetails").get("id");
+                        Boolean on_route = (Boolean) response.getJSONObject(i).getJSONObject("DeliveryDetails").get("on_route");
+                        Boolean delivered = (Boolean) response.getJSONObject(i).getJSONObject("DeliveryDetails").get("delivered");
+                        Double delivery_long = (Double) response.getJSONObject(i).getJSONObject("DeliveryDetails").get("delivery_longtitude");
+                        Double delivery_lat = (Double) response.getJSONObject(i).getJSONObject("DeliveryDetails").get("delivery_latitude");
+                        Integer item_id = (Integer) response.getJSONObject(i).getJSONObject("DeliveryDetails").getJSONObject("item_id").get("id");
+                        Integer user_id = (Integer) response.getJSONObject(i).getJSONObject("DeliveryDetails").get("user_id");
+                        String item_img = (String) response.getJSONObject(i).getJSONObject("DeliveryDetails").getJSONObject("item_id").get("item_image");
+                        String item_title = (String) response.getJSONObject(i).getJSONObject("DeliveryDetails").getJSONObject("item_id").get("item_title");
                         //Geocoder geocoder = new Geocoder(getContext());
                         //Address deliveryAddress = geocoder.getFromLocation(delivery_lat, delivery_long,1).get(0);
 

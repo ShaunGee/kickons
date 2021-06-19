@@ -151,6 +151,8 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
 
             jsonObject.put("id", deliveryDetails.getDeliveryId());
             jsonObject.put("on_route", true);
+            jsonObject.put("deliverer_id", deliveryDetails.getDeliverer_id());
+            jsonObject.put("item_image", deliveryDetails.item_img);
 
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, NetworkConstants.SERVER_UPDATE_ROUTE_STATUS, jsonObject, null, errorListener);
@@ -188,13 +190,17 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
         }
     };
 
+    /*
+    creates a deliverer using the deliverer_id then also creates a delivery detail and sets that to deliverer_id
+     */
+
     private void createDeliveryForCurrentUser() {
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("user",deliveryDetails.getDeliverer_id());
-            jsonObject.put("delivery_details_id", deliveryDetails.getDeliveryId());
+            jsonObject.put("DeliveryDetails", deliveryDetails.getDeliveryId());
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, NetworkConstants.SERVER_GET_DELIVERIES_OF_A_USER,
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, NetworkConstants.SERVER_SET_DELIVERIES_OF_A_USER,
                     jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -205,7 +211,7 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    System.out.println(error);
                 }
             });
 
