@@ -7,6 +7,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +32,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class DeliveryListFragment extends Fragment {
+public class DeliveryListFragment extends Fragment implements CustomOnclickListenerInterface {
 
 
     Integer deliverer_id;
@@ -128,11 +129,24 @@ public class DeliveryListFragment extends Fragment {
     private void listItems(List<DeliveryDetails> dd) {
 
         RecyclerView recyclerView = getActivity().findViewById(R.id.delivery_list_recycler_view);
-        DeliveryListAdapter deliveryListAdapter = new DeliveryListAdapter(dd, getParentFragmentManager(), getContext());
+        DeliveryListAdapter deliveryListAdapter = new DeliveryListAdapter(dd, getParentFragmentManager(), getContext(), this);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
 
         recyclerView.setLayoutManager(linearLayoutManager);
         recyclerView.setAdapter(deliveryListAdapter);
 
+    }
+
+    @Override
+    public void recyclerviewOnItemClick(int position, List<DeliveryDetails> listOfDeliveries, FragmentManager fragmentManager) {
+        DeliveryDetailDisplayFragment deliveryDetailDisplayFragment = new DeliveryDetailDisplayFragment();
+
+        //create a new bundle to be sent to deliveryDetailDisplay Fragment and put the DeliveryDetail object
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("selected_delevery_details", listOfDeliveries.get(position));
+        deliveryDetailDisplayFragment.setArguments(bundle);
+
+        fragmentManager.beginTransaction().replace(R.id.delivery_activity_frame_layout, deliveryDetailDisplayFragment).commit();
+        System.out.println("this is the cpostion: " + position);
     }
 }

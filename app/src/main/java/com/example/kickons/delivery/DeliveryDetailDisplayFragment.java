@@ -32,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.util.Locale;
 
 public class DeliveryDetailDisplayFragment extends Fragment implements View.OnClickListener {
 
@@ -151,8 +152,9 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
 
             jsonObject.put("id", deliveryDetails.getDeliveryId());
             jsonObject.put("on_route", true);
-            jsonObject.put("deliverer_id", deliveryDetails.getDeliverer_id());
-            jsonObject.put("item_image", deliveryDetails.item_img);
+            //jsonObject.put("deliverer_id", deliveryDetails.getDeliverer_id());
+            //jsonObject.put("item_image", deliveryDetails.item_img);
+
 
 
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, NetworkConstants.SERVER_UPDATE_ROUTE_STATUS, jsonObject, null, errorListener);
@@ -162,7 +164,7 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
             System.out.println("error in connecting");
         }
     }
-
+    //TODO: create a new adapter!!!!
 
 
 
@@ -174,7 +176,7 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
                     //update db on_route to true so other delivery users wont be able to take it
                     updateOnRoute(true);
 
-                    //enter Deliverer model with instance of this delivery
+                    //allocate the delivery to the deliverer
                     createDeliveryForCurrentUser();
 
 
@@ -195,12 +197,13 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
      */
 
     private void createDeliveryForCurrentUser() {
+        String url = String.format(Locale.getDefault(), "%s%d/", NetworkConstants.SERVER_SET_DELIVERIES_OF_A_USER, deliveryDetails.getDeliverer_id());
         try {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("user",deliveryDetails.getDeliverer_id());
             jsonObject.put("DeliveryDetails", deliveryDetails.getDeliveryId());
 
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, NetworkConstants.SERVER_SET_DELIVERIES_OF_A_USER,
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, NetworkConstants.SERVER_UPDATE_DELIVERER_ACTIVE_STATE,
                     jsonObject, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -228,5 +231,6 @@ public class DeliveryDetailDisplayFragment extends Fragment implements View.OnCl
 
         }
     };
+
 
 }

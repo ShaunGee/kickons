@@ -5,6 +5,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -29,12 +30,15 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
     FragmentManager fragmentManager;
     DeliveryDetails selectedDelivery;
     Context context;
+    CustomOnclickListenerInterface click;
 
 
-    public DeliveryListAdapter(List<DeliveryDetails> listOfDeliveries, FragmentManager fragmentManager, Context context) {
+    public DeliveryListAdapter(List<DeliveryDetails> listOfDeliveries, FragmentManager fragmentManager,
+                               Context context, CustomOnclickListenerInterface customOnclickListenerInterface) {
         this.listOfDeliveries = listOfDeliveries;
         this.fragmentManager = fragmentManager;
         this.context = context;
+        this.click = customOnclickListenerInterface;
     }
 
     @NonNull
@@ -66,6 +70,14 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
         Address address = geocoder.getFromLocation(deliveryLat,deliveryLong, 1).get(0);
         deliveryAddress.setText(address.getAddressLine(0));
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                click.recyclerviewOnItemClick(position, listOfDeliveries, fragmentManager);
+            }
+        });
+
+        /*
         //onclick listener to handle itemclick
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,10 +92,14 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
                 fragmentManager.beginTransaction().replace(R.id.delivery_activity_frame_layout, deliveryDetailDisplayFragment).commit();
             }
         });
+
+         */
         } catch (IOException  | IndexOutOfBoundsException e) {
             e.printStackTrace(); //incase address is not findable
             //Toast.makeText(context,"Couldn't find address", Toast.LENGTH_SHORT).show();
             }
+
+
 
     }
 
@@ -95,15 +111,16 @@ public class DeliveryListAdapter extends RecyclerView.Adapter<DeliveryListAdapte
 
 
     class ItemView extends  RecyclerView.ViewHolder {
-         FragmentManager fragmentManager;
+        FragmentManager fragmentManager;
 
         public ItemView(@NonNull View itemView, FragmentManager fragmentManager) {
             super(itemView);
             this.fragmentManager = fragmentManager;
 
 
-
         }
 
+    }
+
      }
-}
+
